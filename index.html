@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="my">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Satellite Radar Scanner — ဂြိုဟ်တု Radar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/satellite.js@5.0.0/dist/satellite.min.js"></script>
+    <style>
+      :root{
+        color-scheme: light dark;
+        --bg:#e9efe9;
+        --bg2:#dfe8df;
+        --panel:#f7faf7;
+        --panel2:#eef4ee;
+        --ink:#0d1f14;
+        --muted:#4c6355;
+        --line:#c3d2c5;
+        --accent:#0a7a3d;
+        --accent-ink:#065c2e;
+        --warn:#9a6206;
+        --warn-bg:#fdf3d7;
+        --err:#a11d1d;
+        --err-bg:#fde8e8;
+        --chip:#e2ece2;
+        --scope:#020604;
+        --phos:#2eff8f;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#060a07;
+          --bg2:#040705;
+          --panel:#0b120d;
+          --panel2:#0e1710;
+          --ink:#e6f5ea;
+          --muted:#8fae99;
+          --line:#1f3325;
+          --accent:#2eff8f;
+          --accent-ink:#2eff8f;
+          --warn:#ffcf5e;
+          --warn-bg:#2b230a;
+          --err:#ff8a8a;
+          --err-bg:#2e0f0f;
+          --chip:#14231a;
+        }
+      }
+      *{box-sizing:border-box}
+      html,body{margin:0;padding:0}
+      body{
+        background:var(--bg);
+        color:var(--ink);
+        font-family:"Noto Sans Myanmar",system-ui,-apple-system,"Segoe UI",sans-serif;
+        line-height:1.55;
+        -webkit-font-smoothing:antialiased;
+      }
+      .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+      .wrap{max-width:1180px;margin:0 auto;padding:18px 16px 40px}
+      /* header */
+      .top{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:14px}
+      .top h1{font-size:clamp(24px,4.5vw,38px);line-height:1.15;margin:0;font-weight:800;letter-spacing:-.01em}
+      .top h1 .en{font-family:"IBM Plex Mono",monospace;font-weight:700}
+      .top .sub{color:var(--muted);margin:6px 0 0;font-size:15px;max-width:56ch}
+      .livebox{text-align:right;min-width:210px}
+      .live-dot{display:inline-flex;align-items:center;gap:8px;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+      .live-dot::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(46,255,143,.5);animation:pulse 2s infinite}
+      @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(46,255,143,.45)}70%{box-shadow:0 0 0 9px rgba(46,255,143,0)}100%{box-shadow:0 0 0 0 rgba(46,255,143,0)}}
+      @media (prefers-reduced-motion: reduce){.live-dot::before{animation:none}}
+      .clock{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:700;margin-top:2px}
+      .clock small{display:block;font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.04em}
+      /* stat strip */
+      .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+      .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+      .stat .k{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+      .stat .v{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:700;margin-top:2px;overflow-wrap:anywhere}
+      .stat .d{font-size:12.5px;color:var(--muted);margin-top:1px;overflow-wrap:anywhere}
+      /* controls */
+      .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
+      .btn{appearance:none;border:1.5px solid var(--ink);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+      .btn:hover{background:var(--panel2)}
+      .btn.primary{background:var(--ink);color:var(--bg)}
+      .btn svg{width:15px;height:15px;flex:none}
+      .chips{display:flex;flex-wrap:wrap;gap:6px}
+      .chip{appearance:none;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+      .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+      .chip .sw{width:8px;height:8px;border-radius:50%;flex:none}
+      .search{flex:1 1 180px;min-width:150px}
+      .search input{width:100%;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 14px;font:inherit;font-size:14px}
+      /* main grid */
+      .grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:14px;align-items:start}
+      .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+      .card h2{margin:0 0 4px;font-size:17px;font-weight:800}
+      .card .hint{color:var(--muted);font-size:13px;margin:0 0 10px}
+      .scope-wrap{position:relative;width:100%;aspect-ratio:1/1;background:var(--scope);border-radius:12px;overflow:hidden}
+      canvas#radar{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:manipulation}
+      .scope-foot{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+      .scope-foot b{color:var(--ink)}
+      .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12.5px;color:var(--muted)}
+      .legend span{display:inline-flex;align-items:center;gap:6px}
+      .legend .sw{width:9px;height:9px;border-radius:50%}
+      /* detail */
+      .detail .big-dir{display:flex;align-items:center;gap:14px;margin:8px 0 12px}
+      .arrowbox{width:62px;height:62px;flex:none;border-radius:50%;background:var(--scope);display:grid;place-items:center}
+      .arrowbox svg{width:30px;height:30px;transition:transform .5s ease}
+      .detail .look{font-size:19px;font-weight:800;line-height:1.3}
+      .detail .look small{display:block;font-size:13px;color:var(--muted);font-weight:600}
+      .kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+      .kv div{background:var(--panel2);border-radius:8px;padding:8px 10px;min-width:0}
+      .kv .k{font-size:11.5px;color:var(--muted);font-weight:600}
+      .kv .v{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .empty{color:var(--muted);font-size:14px;border:1.5px dashed var(--line);border-radius:10px;padding:16px;text-align:center}
+      /* list */
+      .listcard{margin-top:14px}
+      .satlist{list-style:none;margin:0;padding:0;max-height:520px;overflow:auto}
+      .satlist li{border-top:1px solid var(--line)}
+      .satlist li:first-child{border-top:none}
+      .satbtn{appearance:none;background:none;border:none;width:100%;text-align:left;padding:10px 6px;display:flex;gap:10px;align-items:center;cursor:pointer;font:inherit;color:var(--ink);border-radius:8px}
+      .satbtn:hover{background:var(--panel2)}
+      .satbtn[aria-current="true"]{background:var(--panel2);outline:2px solid var(--accent);outline-offset:-2px}
+      .satbtn .dot{width:10px;height:10px;border-radius:50%;flex:none}
+      .satbtn .nm{flex:1 1 auto;min-width:0}
+      .satbtn .nm b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .satbtn .nm span{font-size:12px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+      .satbtn .nums{font-family:"IBM Plex Mono",monospace;font-size:12.5px;text-align:right;flex:none}
+      .satbtn .nums b{font-size:14px}
+      .elbar{height:4px;border-radius:2px;background:var(--line);margin-top:3px;overflow:hidden}
+      .elbar i{display:block;height:100%;background:var(--accent)}
+      /* passes */
+      .passes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+      .pass{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+      .pass h3{margin:0 0 2px;font-size:16px}
+      .pass .when{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:700;margin:6px 0 2px}
+      .pass p{margin:4px 0;color:var(--muted);font-size:13.5px}
+      .pass p b{color:var(--ink)}
+      /* banners */
+      .banner{border-radius:12px;padding:14px 16px;margin:0 0 14px;font-size:14.5px;display:none}
+      .banner.show{display:block}
+      .banner.err{background:var(--err-bg);color:var(--err);border:1px solid var(--err)}
+      .banner.warn{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn)}
+      .banner .btn{margin-top:10px;border-color:currentColor;color:inherit;background:transparent}
+      .loading{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 14px;font-size:14px}
+      .loading ul{list-style:none;margin:8px 0 0;padding:0;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted)}
+      .loading li{padding:2px 0}
+      .loading li.ok{color:var(--accent-ink)}
+      .loading li.bad{color:var(--err)}
+      /* footer */
+      footer{margin-top:22px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:13px}
+      footer a{color:var(--accent-ink);font-weight:600}
+      footer p{margin:0 0 8px;max-width:75ch}
+      @media (max-width:860px){
+        .stats{grid-template-columns:1fr 1fr}
+        .grid{grid-template-columns:1fr}
+        .passes{grid-template-columns:1fr}
+        .livebox{text-align:left}
+        .satlist{max-height:420px}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <div>
+          <h1><span class="en">Satellite Radar Scanner</span><br />ဂြိုဟ်တု ရေဒါ စကင်နာ</h1>
+          <p class="sub">မင်းရှိတဲ့နေရာရဲ့ ခေါင်းပေါ်ကောင်းကင်မှာ <b>အခုတကယ်</b> ဖြတ်သန်းနေတဲ့ ဂြိုဟ်တုတွေကို CelesTrak ရဲ့ live TLE data နဲ့ SGP4 တွက်ချက်ပြီး အချိန်နဲ့တပြေးညီ ပြပေးတယ်။</p>
+        </div>
+        <div class="livebox">
+          <span class="live-dot" id="liveBadge">Loading TLE…</span>
+          <div class="clock"><span id="clockLocal">--:--:--</span><small id="clockUtc">UTC --:--:-- · Local time</small></div>
+        </div>
+      </header>
+
+      <section class="stats" aria-label="အခြေအနေ">
+        <div class="stat"><div class="k">ကြည့်ရှုသူနေရာ · Observer</div><div class="v" id="stObs">Mong La · မိုင်းလား</div><div class="d mono" id="stObsCoord">21.6621° N · 100.0014° E</div></div>
+        <div class="stat"><div class="k">ခြေရာခံနေသော ဂြိုဟ်တု · Tracked</div><div class="v" id="stTracked">—</div><div class="d" id="stTrackedD">TLE မရသေးပါ</div></div>
+        <div class="stat"><div class="k">အခု မိုးကုပ်အတွင်း · Overhead now</div><div class="v" id="stOver">—</div><div class="d" id="stOverD">Elevation &gt; 0°</div></div>
+        <div class="stat"><div class="k">အမြင့်ဆုံး ဂြိုဟ်တု · Highest</div><div class="v" id="stHigh">—</div><div class="d mono" id="stHighD">—</div></div>
+      </section>
+
+      <div class="banner err" id="errBanner" role="alert">
+        <b>TLE data ယူမရပါ။</b> <span id="errText">CelesTrak server ကို ဆက်သွယ်မရပါ — internet connection စစ်ပြီး ပြန်ကြိုးစားပါ။ အတု data နဲ့ အစားမထိုးပါ။</span>
+        <br /><button class="btn" id="retryBtn" type="button">ပြန်ကြိုးစားမယ် · Retry</button>
+      </div>
+      <div class="banner warn" id="warnBanner" role="status"></div>
+
+      <div class="loading" id="loadingBox">
+        <b>CelesTrak မှ live TLE data ယူနေတယ်…</b> <span class="mono" id="loadPct"></span>
+        <ul id="loadList"></ul>
+      </div>
+
+      <div class="controls">
+        <button class="btn primary" id="gpsBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
+          ကျွန်တော့်နေရာကို သုံးမယ်
+        </button>
+        <button class="btn" id="homeBtn" type="button">မိုင်းလား (Mong La) ပြန်ထားမယ်</button>
+        <button class="btn" id="reloadBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          TLE ပြန်ယူမယ်
+        </button>
+        <div class="search"><input id="searchInput" type="search" placeholder="ဂြိုဟ်တု နာမည် / NORAD ID ရှာရန်… ဥပမာ ISS, STARLINK-1008" aria-label="ဂြိုဟ်တုရှာရန်" /></div>
+      </div>
+      <div class="controls" style="margin-top:-6px">
+        <div class="chips" id="filterChips" role="group" aria-label="အမျိုးအစား စစ်ထုတ်ရန်"></div>
+      </div>
+
+      <div class="grid">
+        <section class="card" aria-label="Radar">
+          <h2>Radar Scope · ရေဒါမြင်ကွင်း</h2>
+          <p class="hint">အလယ် = မင်းခေါင်းတည့်တည့် (Zenith 90°) · အနားသတ် = မိုးကုပ်စက်ဝိုင်း (Horizon 0°) · အပေါ် = မြောက်အရပ်။ အစက်တစ်ခုစီ = အခု အဲ့ဒီနေရာမှာ တကယ်ရှိနေတဲ့ ဂြိုဟ်တု။</p>
+          <div class="scope-wrap"><canvas id="radar" aria-label="ဂြိုဟ်တု radar မြင်ကွင်း"></canvas></div>
+          <div class="scope-foot">
+            <span>SWEEP <b id="sweepHz">—</b></span>
+            <span>RANGE <b>Horizon → Zenith</b></span>
+            <span>UPDATE <b id="updRate">—</b></span>
+            <span>TLE EPOCH <b id="tleEpochFoot">—</b></span>
+          </div>
+          <div class="legend" id="legend"></div>
+        </section>
+
+        <div>
+          <section class="card detail" aria-label="ရွေးထားသော ဂြိုဟ်တု">
+            <h2>ရွေးထားသော ဂြိုဟ်တု · Selected</h2>
+            <div id="detailBody">
+              <div class="empty">အောက်က စာရင်းထဲက ဂြိုဟ်တုတစ်လုံး (သို့) radar ပေါ်က အစက်ကို နှိပ်လိုက်ရင် အသေးစိတ် ပြမယ်။<br />ISS နဲ့ Tiangong ကို ရွေးကြည့်ပါ — အသေးစိတ် အပြည့်ရတယ်။</div>
+            </div>
+          </section>
+
+          <section class="card listcard" aria-label="အခု အပေါ်မှာရှိသော ဂြိုဟ်တုများ">
+            <h2>အခု မိုးကုပ်အတွင်းမှာ ရှိတယ် · Overhead now <span class="mono" id="listCount"></span></h2>
+            <p class="hint">Elevation အမြင့်ဆုံးကနေ စီထားတယ်။ Elevation 10° အထက်ဆို အတားအဆီးမရှိရင် မြင်နိုင်ခြေ ပိုကောင်းတယ်။</p>
+            <ul class="satlist" id="satList"></ul>
+            <div class="empty" id="listEmpty" style="display:none">ဒီစစ်ထုတ်မှုနဲ့ အခု မိုးကုပ်အတွင်း ဂြိုဟ်တု မရှိသေးပါ။ ခဏစောင့်ရင် LEO ဂြိုဟ်တုတွေ ဆက်တိုက် ဝင်လာပါလိမ့်မယ်။</div>
+          </section>
+        </div>
+      </div>
+
+      <div class="passes">
+        <section class="pass" aria-label="ISS နောက်ထပ် ဖြတ်သန်းမှု">
+          <h3>ISS · အပြည်ပြည်ဆိုင်ရာ အာကာသစခန်း</h3>
+          <p>NORAD 25544 · လူလိုက်ပါတဲ့ စခန်း · အမြင့် ~420 km</p>
+          <div class="when" id="issPass">တွက်နေတယ်…</div>
+          <p id="issPassD">နောက် 48 နာရီအတွင်း Elevation 10° အထက် ဖြတ်သန်းမှုကို SGP4 နဲ့ ရှာနေတယ်။</p>
+        </section>
+        <section class="pass" aria-label="Tiangong နောက်ထပ် ဖြတ်သန်းမှု">
+          <h3>Tiangong (CSS) · တရုတ် အာကာသစခန်း</h3>
+          <p>NORAD 48274 · TIANHE module · အမြင့် ~390 km</p>
+          <div class="when" id="cssPass">တွက်နေတယ်…</div>
+          <p id="cssPassD">နောက် 48 နာရီအတွင်း Elevation 10° အထက် ဖြတ်သန်းမှုကို SGP4 နဲ့ ရှာနေတယ်။</p>
+        </section>
+      </div>
+
+      <footer>
+        <p><b>Data source:</b> TLE (Two-Line Elements) — <a href="https://celestrak.org/NORAD/elements/" target="_blank" rel="noopener">CelesTrak</a> (NORAD catalog), browser ကနေ တိုက်ရိုက် fetch လုပ်ထားတာ။ <span id="srcLine">Fetched: — · TLE epoch: —</span> တည်နေရာတွက်ချက်မှု: SGP4 propagator — <a href="https://github.com/shashwatak/satellite-js" target="_blank" rel="noopener">satellite.js</a> v5.0.0, သင့် browser ထဲမှာပဲ တွက်တယ်။</p>
+        <p><b>တိကျမှု မှတ်ချက်:</b> TLE + SGP4 တည်နေရာဟာ ပုံမှန်အားဖြင့် ကီလိုမီတာ အနည်းငယ်အတွင်း တိကျတယ် — ကောင်းကင်မှာ မျက်စိနဲ့ လိုက်ကြည့်ဖို့ လုံလောက်ပေမယ့် navigation အဆင့် မဟုတ်ပါ။ Fetch မအောင်မြင်ရင် အတု တည်နေရာ လုံးဝ မပြပါ — error ပြပြီး ပြန်ကြိုးစားခိုင်းပါတယ်။ ကြည်လင်တဲ့ ညနေ/မနက်ခင်းမှာ ISS နဲ့ Tiangong ကို အလင်းဝင်းဝင်း အစက်တစ်ခုအနေနဲ့ သာမန်မျက်စိနဲ့ မြင်နိုင်တယ်။</p>
+      </footer>
+    </div>
+
+<script>
+(function(){
+"use strict";
+var HOME = { lat: 21.66209, lon: 100.00135, altKm: 0.65, name: "Mong La · မိုင်းလား", src: "Default location" };
+var observer = { lat: HOME.lat, lon: HOME.lon, altKm: HOME.altKm, name: HOME.name, src: HOME.src };
+
+var GROUPS = [
+  { id:"stations", en:"Space Stations", my:"အာကာသစခန်း", url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle", color:"#ffd166" },
+  { id:"visual",   en:"Brightest",      my:"အလင်းဆုံး",   url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle",   color:"#ffffff" },
+  { id:"starlink", en:"Starlink",       my:"Starlink",    url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle", color:"#3fd2ff" },
+  { id:"weather",  en:"Weather",        my:"မိုးလေဝသ",    url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=weather&FORMAT=tle",  color:"#69f0ae" },
+  { id:"gps",      en:"GPS / GNSS",     my:"GPS",         url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle",  color:"#ff9e7d" },
+  { id:"science",  en:"Science",        my:"သိပ္ပံ",      url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=science&FORMAT=tle",  color:"#d7b8ff" }
+];
+var groupById = {}; GROUPS.forEach(function(g){ groupById[g.id]=g; });
+
+var ALIAS = {
+  "25544": { name:"ISS (ZARYA)", disp:"ISS · International Space Station", my:"အပြည်ပြည်ဆိုင်ရာ အာကာသစခန်း" },
+  "48274": { name:"CSS (TIANHE)", disp:"Tiangong · CSS (TIANHE)", my:"တရုတ် အာကာသစခန်း Tiangong" }
+};
+
+var sats = [];            // {name, disp, norad, satrec, group, periodMin, inc, epoch}
+var visible = [];         // computed: sat + az, el, range, lat, lon, alt, vel
+var selectedNorad = null;
+var activeFilter = "all";
+var searchText = "";
+var fetchedAt = null;
+var epochMin = null, epochMax = null;
+var computeBusy = false;
+var lastComputeMs = 0;
+var passCache = { "25544": null, "48274": null };
+
+var $ = function(id){ return document.getElementById(id); };
+var radar = $("radar"), ctx = radar.getContext("2d");
+var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- formatting ---------- */
+function pad(n){ return (n<10?"0":"")+n; }
+function fmtTime(d){ return pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds()); }
+function fmtTimeShort(d){ return pad(d.getHours())+":"+pad(d.getMinutes()); }
+function fmtDate(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+function fmtDT(d){ return fmtDate(d)+" "+fmtTimeShort(d); }
+function compass(az){
+  var dirs=[["N","မြောက်"],["NE","အရှေ့မြောက်"],["E","အရှေ့"],["SE","အရှေ့တောင်"],["S","တောင်"],["SW","အနောက်တောင်"],["W","အနောက်"],["NW","အနောက်မြောက်"]];
+  return dirs[Math.round(az/45)%8];
+}
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+/* ---------- clock ---------- */
+function tickClock(){
+  var now = new Date();
+  $("clockLocal").textContent = fmtTime(now);
+  $("clockUtc").textContent = "UTC "+pad(now.getUTCHours())+":"+pad(now.getUTCMinutes())+":"+pad(now.getUTCSeconds())+" · Local "+fmtDate(now);
+}
+setInterval(tickClock, 1000); tickClock();
+
+/* ---------- TLE fetch ---------- */
+function parseTLE(text, groupId){
+  var lines = text.split(/\r?\n/), out = [];
+  for (var i=0;i<lines.length;i++){
+    var name = lines[i].trim();
+    if (!name || name.charAt(0)==="1" || name.charAt(0)==="2") continue;
+    var l1 = (lines[i+1]||"").trim(), l2 = (lines[i+2]||"").trim();
+    if (l1.charAt(0)!=="1" || l2.charAt(0)!=="2") continue;
+    if (name.indexOf("0 ")===0) name = name.substring(2).trim();
+    try {
+      var rec = satellite.twoline2satrec(l1, l2);
+      if (!rec) continue;
+      var norad = l1.substring(2,7).trim();
+      var mm = parseFloat(l2.substring(52,63));
+      var inc = parseFloat(l2.substring(8,16));
+      var ep = tleEpoch(l1);
+      var alias = ALIAS[norad];
+      out.push({
+        name: name,
+        disp: alias ? alias.disp : name,
+        my: alias ? alias.my : "",
+        norad: norad, satrec: rec, group: groupId,
+        periodMin: mm>0 ? 1440/mm : null,
+        inc: isNaN(inc)?null:inc, epoch: ep
+      });
+      if (ep){ if(!epochMin||ep<epochMin)epochMin=ep; if(!epochMax||ep>epochMax)epochMax=ep; }
+    } catch(e){ /* skip broken record */ }
+  }
+  return out;
+}
+function tleEpoch(l1){
+  var y = parseInt(l1.substring(18,20),10), d = parseFloat(l1.substring(20,32));
+  if (isNaN(y)||isNaN(d)) return null;
+  var year = y<57 ? 2000+y : 1900+y;
+  return new Date(Date.UTC(year,0,1) + (d-1)*86400000);
+}
+function fetchGroup(g){
+  return fetch(g.url, { cache:"no-store" }).then(function(r){
+    if (!r.ok) throw new Error("HTTP "+r.status);
+    return r.text();
+  }).then(function(t){ return parseTLE(t, g.id); });
+}
+function setBadge(state){
+  var b=$("liveBadge"); if(!b) return;
+  if (state==="live"){ b.textContent="Live · SGP4"; b.style.color=""; b.style.setProperty("--accent",""); }
+  else if (state==="error"){ b.textContent="Not live — no data"; b.style.color="var(--err)"; b.style.setProperty("--accent","#e5484d"); }
+  else { b.textContent="Loading TLE…"; b.style.color="var(--warn)"; b.style.setProperty("--accent","#e5a100"); }
+}
+function loadAll(){
+  setBadge("loading");
+  sats = []; visible = []; epochMin=null; epochMax=null;
+  $("errBanner").classList.remove("show");
+  $("warnBanner").classList.remove("show");
+  var box = $("loadingBox"); box.style.display="block";
+  var ul = $("loadList"); ul.innerHTML="";
+  var rows = {};
+  GROUPS.forEach(function(g){
+    var li=document.createElement("li"); li.textContent="··· "+g.en+" — စောင့်နေတယ်"; ul.appendChild(li); rows[g.id]=li;
+  });
+  var done=0, failures=[];
+  var jobs = GROUPS.map(function(g){
+    return fetchGroup(g).then(function(arr){
+      rows[g.id].textContent="✓ "+g.en+" — ဂြိုဟ်တု "+arr.length+" လုံး";
+      rows[g.id].className="ok";
+      sats = sats.concat(arr);
+    }).catch(function(e){
+      rows[g.id].textContent="✗ "+g.en+" — "+e.message;
+      rows[g.id].className="bad";
+      failures.push(g.en);
+    }).then(function(){
+      done++; $("loadPct").textContent = done+"/"+GROUPS.length;
+    });
+  });
+  Promise.all(jobs).then(function(){
+    fetchedAt = new Date();
+    if (sats.length===0){
+      box.style.display="none";
+      setBadge("error");
+      $("errBanner").classList.add("show");
+      $("stTracked").textContent="0";
+      $("stTrackedD").textContent="TLE fetch မအောင်မြင်ပါ";
+      return;
+    }
+    box.style.display="none";
+    setBadge("live");
+    if (failures.length){
+      var w=$("warnBanner");
+      w.innerHTML="<b>အချို့ group တွေ ယူမရပါ:</b> "+esc(failures.join(", "))+" — ရလာတဲ့ group တွေနဲ့ ဆက်ပြထားတယ်။ အားလုံးက real TLE data ချည်းပါပဲ။";
+      w.classList.add("show");
+    }
+    // Featured stations first for fast first paint
+    sats.sort(function(a,b){
+      var rank=function(s){ return s.norad==="25544"?0 : s.norad==="48274"?1 : s.group==="stations"?2 : s.group==="starlink"?9 : 5; };
+      return rank(a)-rank(b);
+    });
+    updateSourceLine();
+    computeNow(true);
+    computePasses();
+  });
+}
+function updateSourceLine(){
+  var ep = epochMax ? fmtDT(epochMax) : "—";
+  var epTxt = epochMin && epochMax && epochMin.getTime()!==epochMax.getTime()
+    ? fmtDate(epochMin)+" → "+fmtDT(epochMax) : ep;
+  $("srcLine").textContent = "Fetched: "+(fetchedAt?fmtDT(fetchedAt):"—")+" (local) · TLE epoch: "+epTxt;
+  $("tleEpochFoot").textContent = ep;
+  $("stTracked").textContent = sats.length.toLocaleString("en-US");
+  var byG = {}; sats.forEach(function(s){ byG[s.group]=(byG[s.group]||0)+1; });
+  $("stTrackedD").textContent = GROUPS.filter(function(g){return byG[g.id];}).map(function(g){ return g.en+" "+byG[g.id]; }).join(" · ");
+}
+
+/* ---------- SGP4 computation ---------- */
+function observerGd(){
+  return {
+    longitude: satellite.degreesToRadians(observer.lon),
+    latitude: satellite.degreesToRadians(observer.lat),
+    height: observer.altKm
+  };
+}
+function lookAngles(sat, date, gmst, obsGd){
+  var pv = satellite.propagate(sat.satrec, date);
+  if (!pv || !pv.position || typeof pv.position.x!=="number") return null;
+  var geo = satellite.eciToGeodetic(pv.position, gmst);
+  var lat = satellite.degreesLat(geo.latitude);
+  var lon = satellite.degreesLong(geo.longitude);
+  var posEcf = satellite.eciToEcf(pv.position, gmst);
+  var look = satellite.ecfToLookAngles(obsGd, posEcf);
+  var vel = pv.velocity ? Math.sqrt(pv.velocity.x*pv.velocity.x+pv.velocity.y*pv.velocity.y+pv.velocity.z*pv.velocity.z) : null;
+  return {
+    sat: sat,
+    az: (look.azimuth*180/Math.PI+360)%360,
+    el: look.elevation*180/Math.PI,
+    range: look.rangeSat,
+    lat: lat, lon: lon, alt: geo.height, vel: vel
+  };
+}
+function angularNear(lat, lon){
+  var dLat = Math.abs(lat-observer.lat);
+  var dLon = Math.abs(lon-observer.lon); if (dLon>180) dLon=360-dLon;
+  dLon = dLon*Math.cos(observer.lat*Math.PI/180);
+  return dLat<40 && dLon<40;
+}
+function computeNow(first){
+  if (computeBusy || !sats.length) return;
+  computeBusy = true;
+  var t0 = performance.now();
+  var date = new Date();
+  var gmst = satellite.gstime(date);
+  var obsGd = observerGd();
+  var results = [];
+  var idx = 0;
+  function chunk(){
+    var budgetEnd = performance.now()+14;
+    while (idx<sats.length && performance.now()<budgetEnd){
+      var s = sats[idx++];
+      var r = lookAngles(s, date, gmst, obsGd);
+      if (!r) continue;
+      if (s.group==="starlink" && r.el<=0 && !angularNear(r.lat, r.lon)) continue;
+      if (r.el>0) results.push(r);
+      else if (s.group!=="starlink" && r.el>-2) results.push(r);
+    }
+    if (idx<sats.length){ setTimeout(chunk, 0); return; }
+    visible = results.filter(function(r){ return r.el>0; });
+    visible.sort(function(a,b){ return b.el-a.el; });
+    if (!selectedNorad){
+      for (var vi=0; vi<visible.length; vi++){ if (visible[vi].sat.group==="stations"){ selectedNorad=visible[vi].sat.norad; break; } }
+    }
+    lastComputeMs = Math.round(performance.now()-t0);
+    computeBusy = false;
+    renderStats(); renderList(); renderDetail();
+    setTimeout(function(){ computeNow(false); }, 1600);
+  }
+  chunk();
+}
+function matchesFilter(r){
+  if (activeFilter!=="all" && r.sat.group!==activeFilter) return false;
+  if (searchText){
+    var q=searchText.toLowerCase();
+    return r.sat.name.toLowerCase().indexOf(q)>=0 || r.sat.disp.toLowerCase().indexOf(q)>=0 || r.sat.norad.indexOf(q)>=0;
+  }
+  return true;
+}
+
+/* ---------- stats / list / detail ---------- */
+function renderStats(){
+  $("stOver").textContent = visible.length.toLocaleString("en-US");
+  var good = visible.filter(function(r){return r.el>=10;}).length;
+  $("stOverD").textContent = "Elevation > 0° · ≥10°: "+good+" လုံး";
+  $("updRate").textContent = lastComputeMs ? ("SGP4 "+sats.length.toLocaleString("en-US")+" sats · "+lastComputeMs+" ms") : "—";
+  if (visible.length){
+    var h=visible[0];
+    $("stHigh").textContent = h.sat.disp;
+    $("stHighD").textContent = "EL "+h.el.toFixed(1)+"° · "+Math.round(h.range)+" km";
+  } else { $("stHigh").textContent="—"; $("stHighD").textContent="—"; }
+}
+function renderList(){
+  var ul=$("satList"); ul.innerHTML="";
+  var rows = visible.filter(matchesFilter).slice(0,120);
+  $("listCount").textContent = rows.length ? "("+rows.length+")" : "";
+  $("listEmpty").style.display = rows.length? "none":"block";
+  var frag=document.createDocumentFragment();
+  rows.forEach(function(r){
+    var li=document.createElement("li");
+    var b=document.createElement("button");
+    b.type="button"; b.className="satbtn";
+    if (r.sat.norad===selectedNorad) b.setAttribute("aria-current","true");
+    var c=compass(r.az);
+    b.innerHTML =
+      '<span class="dot" style="background:'+groupById[r.sat.group].color+'"></span>'+
+      '<span class="nm"><b>'+esc(r.sat.disp)+'</b><span>NORAD '+r.sat.norad+' · '+esc(groupById[r.sat.group].en)+'</span></span>'+
+      '<span class="nums"><b>EL '+r.el.toFixed(0)+'°</b> '+c[0]+'<br />'+Math.round(r.range).toLocaleString("en-US")+' km'+
+      '<span class="elbar"><i style="width:'+Math.min(100,r.el/90*100)+'%"></i></span></span>';
+    b.addEventListener("click", function(){ selectedNorad=r.sat.norad; renderList(); renderDetail(); });
+    li.appendChild(b); frag.appendChild(li);
+  });
+  ul.appendChild(frag);
+}
+function findVisible(norad){
+  for (var i=0;i<visible.length;i++) if (visible[i].sat.norad===norad) return visible[i];
+  return null;
+}
+function renderDetail(){
+  var body=$("detailBody");
+  if (!selectedNorad) return;
+  var r=findVisible(selectedNorad);
+  var sat=null;
+  for (var i=0;i<sats.length;i++) if (sats[i].norad===selectedNorad){ sat=sats[i]; break; }
+  if (!sat){ body.innerHTML='<div class="empty">ရွေးထားသော ဂြိုဟ်တု data မရှိတော့ပါ။</div>'; return; }
+  if (!r){
+    // Not overhead right now: compute its current position anyway (real, below horizon)
+    var now=new Date(), gmst=satellite.gstime(now);
+    r = lookAngles(sat, now, gmst, observerGd());
+    if (!r){ body.innerHTML='<div class="empty">ဒီဂြိုဟ်တုရဲ့ orbit decay ဖြစ်သွားပါပြီ (SGP4 propagate မရပါ)။</div>'; return; }
+    r.below=true;
+  }
+  var c=compass(r.az);
+  var arrowRot = r.az;
+  var pass = passCache[sat.norad];
+  var passHtml = pass ? '<div><div class="k">နောက် Elevation 10°+ ဖြတ်သန်းမှု</div><div class="v" style="font-size:13px">'+esc(pass)+'</div></div>' : "";
+  body.innerHTML =
+    '<div class="big-dir">'+
+      '<div class="arrowbox"><svg viewBox="0 0 24 24" fill="none" stroke="#2eff8f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate('+arrowRot+'deg)"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></div>'+
+      '<div class="look">'+(r.below? "အခု မိုးကုပ်အောက် ရောက်နေတယ်" : "ကြည့်ရန်: "+esc(c[1])+" ("+c[0]+") · အမြင့် "+r.el.toFixed(0)+"°")+
+      '<small>'+esc(sat.disp)+(sat.my? " · "+esc(sat.my):"")+'</small></div>'+
+    '</div>'+
+    '<div class="kv">'+
+      '<div><div class="k">Azimuth · အရပ်ထောင့်</div><div class="v">'+r.az.toFixed(1)+'° '+c[0]+'</div></div>'+
+      '<div><div class="k">Elevation · အမြင့်ထောင့်</div><div class="v">'+r.el.toFixed(1)+'°</div></div>'+
+      '<div><div class="k">Range · အကွာအဝေး</div><div class="v">'+Math.round(r.range).toLocaleString("en-US")+' km</div></div>'+
+      '<div><div class="k">Altitude · ပျံသန်းအမြင့်</div><div class="v">'+Math.round(r.alt).toLocaleString("en-US")+' km</div></div>'+
+      '<div><div class="k">Velocity · အလျင်</div><div class="v">'+(r.vel? r.vel.toFixed(2)+' km/s':'—')+'</div></div>'+
+      '<div><div class="k">Sub-point · မြေပြင်တည့်တည့်</div><div class="v" style="font-size:13px">'+Math.abs(r.lat).toFixed(2)+'° '+(r.lat>=0?"N":"S")+', '+Math.abs(r.lon).toFixed(2)+'° '+(r.lon>=0?"E":"W")+'</div></div>'+
+      '<div><div class="k">NORAD ID · Catalog</div><div class="v">'+sat.norad+'</div></div>'+
+      '<div><div class="k">အမျိုးအစား · Category</div><div class="v" style="font-size:13px">'+esc(groupById[sat.group].en)+'</div></div>'+
+      '<div><div class="k">Orbital period · ပတ်ချိန်</div><div class="v">'+(sat.periodMin? sat.periodMin.toFixed(1)+' min':'—')+'</div></div>'+
+      '<div><div class="k">Inclination · တိမ်းစောင်း</div><div class="v">'+(sat.inc!=null? sat.inc.toFixed(1)+'°':'—')+'</div></div>'+
+      passHtml+
+    '</div>';
+}
+
+/* ---------- next passes (ISS + CSS) ---------- */
+function elAt(sat, date, obsGd){
+  var gmst=satellite.gstime(date);
+  var r=lookAngles(sat, date, gmst, obsGd);
+  return r? r.el : -90;
+}
+function computePassFor(sat, doneCb){
+  var obsGd=observerGd();
+  var start=Date.now(), limit=start+48*3600*1000, step=30000;
+  var prev=elAt(sat, new Date(start), obsGd), prevT=start;
+  var found=null, t=start+step, guard=0;
+  function scan(){
+    var end=performance.now()+12;
+    while (t<limit && performance.now()<end){
+      var el=elAt(sat, new Date(t), obsGd);
+      if (prev<=10 && el>10 && !found){
+        // refine crossing between prevT and t
+        var lo=prevT, hi=t;
+        for (var i=0;i<10;i++){ var mid=(lo+hi)/2; if (elAt(sat,new Date(mid),obsGd)>10) hi=mid; else lo=mid; }
+        // find peak until it drops below 10 again
+        var peak=el, peakT=t, tt=t;
+        while (tt<limit && guard++<20000){
+          tt+=step;
+          var e2=elAt(sat,new Date(tt), obsGd);
+          if (e2>peak){ peak=e2; peakT=tt; }
+          if (e2<10) break;
+        }
+        found={ start:new Date(hi), peak:peak, peakT:new Date(peakT), end:new Date(tt) };
+        break;
+      }
+      prev=el; prevT=t; t+=step;
+    }
+    if (found || t>=limit){ doneCb(found); return; }
+    setTimeout(scan,0);
+  }
+  scan();
+}
+function computePasses(){
+  var targets={};
+  sats.forEach(function(s){ if (s.norad==="25544") targets.iss=s; if (s.norad==="48274") targets.css=s; });
+  [["iss","issPass","issPassD"],["css","cssPass","cssPassD"]].forEach(function(cfg){
+    var sat=targets[cfg[0]]; if(!sat) return;
+    computePassFor(sat, function(p){
+      if (!p){
+        $(cfg[1]).textContent="48 နာရီအတွင်း မရှိပါ";
+        $(cfg[2]).textContent="နောက် 48 နာရီအတွင်း Elevation 10° အထက် ဖြတ်သန်းမှု မရှိပါ။ နောက်ရက်တွေ ပြန်စစ်ပါ။";
+        passCache[sat.norad]=null; return;
+      }
+      var when = fmtDT(p.start)+" → "+fmtTimeShort(p.end);
+      var day = p.start.toDateString()===new Date().toDateString() ? "ဒီနေ့ " : "";
+      $(cfg[1]).textContent = day+when;
+      $(cfg[2]).innerHTML = "အမြင့်ဆုံး Elevation <b>"+p.peak.toFixed(0)+"°</b> · "+fmtTimeShort(p.peakT)+" မှာ · ကြာချိန် ~<b>"+Math.max(1,Math.round((p.end-p.start)/60000))+" မိနစ်</b> · ညနေ/အရုဏ် ကြည်လင်ရင် မျက်စိနဲ့ မြင်နိုင်တယ်။";
+      passCache[sat.norad] = day+fmtDT(p.start)+" · max "+p.peak.toFixed(0)+"°";
+      renderDetail();
+    });
+  });
+}
+
+/* ---------- filters / controls ---------- */
+var chipsBox=$("filterChips");
+function buildChips(){
+  chipsBox.innerHTML="";
+  var all=document.createElement("button");
+  all.type="button"; all.className="chip"; all.textContent="အားလုံး · All";
+  all.setAttribute("aria-pressed", activeFilter==="all"?"true":"false");
+  all.addEventListener("click", function(){ activeFilter="all"; buildChips(); renderList(); });
+  chipsBox.appendChild(all);
+  GROUPS.forEach(function(g){
+    var b=document.createElement("button");
+    b.type="button"; b.className="chip";
+    b.setAttribute("aria-pressed", activeFilter===g.id?"true":"false");
+    b.innerHTML='<span class="sw" style="background:'+g.color+'"></span>'+esc(g.my);
+    b.addEventListener("click", function(){ activeFilter = activeFilter===g.id? "all":g.id; buildChips(); renderList(); });
+    chipsBox.appendChild(b);
+  });
+  var lg=$("legend"); lg.innerHTML="";
+  GROUPS.forEach(function(g){
+    var s=document.createElement("span");
+    s.innerHTML='<span class="sw" style="background:'+g.color+'"></span>'+esc(g.en);
+    lg.appendChild(s);
+  });
+}
+buildChips();
+$("searchInput").addEventListener("input", function(e){ searchText=e.target.value.trim(); renderList(); });
+$("retryBtn").addEventListener("click", loadAll);
+$("reloadBtn").addEventListener("click", loadAll);
+$("homeBtn").addEventListener("click", function(){
+  observer={ lat:HOME.lat, lon:HOME.lon, altKm:HOME.altKm, name:HOME.name, src:HOME.src };
+  syncObserverUI(); visible=[]; computePassesSoon();
+});
+function showWarn(html){
+  var w=$("warnBanner"); w.innerHTML=html; w.classList.add("show");
+  setTimeout(function(){ w.classList.remove("show"); }, 8000);
+}
+$("gpsBtn").addEventListener("click", function(){
+  if (!navigator.geolocation){ showWarn("<b>Geolocation မရပါ</b> — ဒီ browser မှာ နေရာတောင်းလို့ မရပါ။ Mong La default နဲ့ ဆက်ပြထားတယ်။"); return; }
+  navigator.geolocation.getCurrentPosition(function(p){
+    observer={ lat:p.coords.latitude, lon:p.coords.longitude, altKm:(p.coords.altitude||0)/1000, name:"My Location · ကျွန်တော့်နေရာ", src:"GPS" };
+    syncObserverUI(); visible=[]; computePassesSoon();
+    showWarn("<b>GPS နေရာ ရပါပြီ</b> — အဲ့ဒီနေရာကနေ တွက်ပြနေတယ်။");
+  }, function(){
+    showWarn("<b>နေရာ ယူမရပါ</b> — location permission ပိတ်ထားတာ ဖြစ်နိုင်တယ်။ Mong La default နဲ့ ဆက်ပြထားတယ်။");
+  }, { enableHighAccuracy:true, timeout:12000 });
+});
+var passTimer=null;
+function computePassesSoon(){ clearTimeout(passTimer); passTimer=setTimeout(computePasses, 300); }
+function syncObserverUI(){
+  $("stObs").textContent=observer.name;
+  $("stObsCoord").textContent=Math.abs(observer.lat).toFixed(4)+"° "+(observer.lat>=0?"N":"S")+" · "+Math.abs(observer.lon).toFixed(4)+"° "+(observer.lon>=0?"E":"W")+" · "+observer.src;
+}
+syncObserverUI();
+
+/* ---------- radar canvas ---------- */
+var sweepAngle=0, lastFrame=performance.now();
+function resizeCanvas(){
+  var w=radar.parentElement.clientWidth, h=radar.parentElement.clientHeight;
+  var dpr=window.devicePixelRatio||1;
+  radar.width=Math.round(w*dpr); radar.height=Math.round(h*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener("resize", resizeCanvas);
+function drawRadar(now){
+  var w=radar.parentElement.clientWidth, h=radar.parentElement.clientHeight;
+  if (!w) { requestAnimationFrame(drawRadar); return; }
+  if (radar.width!==Math.round(w*(window.devicePixelRatio||1))) resizeCanvas();
+  var dt=(now-lastFrame)/1000; lastFrame=now;
+  if (!reduceMotion) sweepAngle=(sweepAngle+dt*360/5)%360; else sweepAngle=315;
+  $("sweepHz").textContent = reduceMotion? "PAUSED (reduced motion)" : "5.0 s/rev";
+  var cx=w/2, cy=h/2, R=Math.min(w,h)/2-26;
+  ctx.clearRect(0,0,w,h);
+  // scope background
+  var grad=ctx.createRadialGradient(cx,cy,0,cx,cy,R+24);
+  grad.addColorStop(0,"#071510"); grad.addColorStop(.75,"#030a06"); grad.addColorStop(1,"#010302");
+  ctx.fillStyle=grad; ctx.fillRect(0,0,w,h);
+  // rings (el 60 / 30 / 0)
+  ctx.strokeStyle="rgba(46,255,143,.28)"; ctx.lineWidth=1;
+  [R/3, 2*R/3, R].forEach(function(r){ ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke(); });
+  // spokes
+  ctx.strokeStyle="rgba(46,255,143,.13)";
+  for (var a=0;a<360;a+=30){
+    var rad=a*Math.PI/180;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.sin(rad), cy-R*Math.cos(rad)); ctx.stroke();
+  }
+  // cardinal labels
+  ctx.fillStyle="rgba(190,255,215,.9)"; ctx.font="700 13px 'IBM Plex Mono',monospace"; ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText("N", cx, cy-R-13); ctx.fillText("S", cx, cy+R+13);
+  ctx.fillText("E", cx+R+13, cy); ctx.fillText("W", cx-R-13, cy);
+  ctx.font="500 10px 'IBM Plex Mono',monospace"; ctx.fillStyle="rgba(140,220,170,.55)";
+  ctx.fillText("60°", cx+4, cy-R/3-9); ctx.fillText("30°", cx+4, cy-2*R/3-9); ctx.fillText("0° HORIZON", cx+34, cy-R-10);
+  ctx.fillText("ZENITH 90°", cx, cy+14);
+  // sweep wedge
+  var sa=sweepAngle*Math.PI/180;
+  for (var i=0;i<44;i++){
+    var a0=sa-(i+1)*0.016, a1=sa-i*0.016;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,a0-Math.PI/2,a1-Math.PI/2); ctx.closePath();
+    ctx.fillStyle="rgba(46,255,143,"+(0.16*(1-i/44)).toFixed(3)+")"; ctx.fill();
+  }
+  ctx.strokeStyle="rgba(120,255,180,.95)"; ctx.lineWidth=1.6;
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.sin(sa), cy-R*Math.cos(sa)); ctx.stroke();
+  ctx.lineWidth=1;
+  // center
+  ctx.fillStyle="#baffd6"; ctx.beginPath(); ctx.arc(cx,cy,2.4,0,Math.PI*2); ctx.fill();
+  // satellites
+  ctx.font="600 10px 'IBM Plex Mono',monospace";
+  visible.forEach(function(r){
+    if (activeFilter!=="all" && r.sat.group!==activeFilter) return;
+    var rad=r.az*Math.PI/180;
+    var rr=(90-r.el)/90*R;
+    var x=cx+rr*Math.sin(rad), y=cy-rr*Math.cos(rad);
+    r._x=x; r._y=y;
+    var diff=(sweepAngle-r.az+360)%360;
+    var boost=reduceMotion? .55 : (diff<70? 1-diff/70 : .45);
+    var col=groupById[r.sat.group].color;
+    var big = r.sat.norad==="25544"||r.sat.norad==="48274";
+    var radDot = big? 4.6 : 3;
+    ctx.globalAlpha=.28*boost+.1;
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,radDot+4.5,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=.65+.35*boost;
+    ctx.beginPath(); ctx.arc(x,y,radDot,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=1;
+    if (big || r.el>55){
+      ctx.fillStyle="rgba(220,255,235,.92)"; ctx.textAlign="left";
+      ctx.fillText(r.sat.norad==="25544"?"ISS":(r.sat.norad==="48274"?"CSS":r.sat.name.slice(0,12)), x+8, y-6);
+    }
+    if (r.sat.norad===selectedNorad){
+      ctx.strokeStyle="#ffffff"; ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.arc(x,y,radDot+8+Math.sin(now/280)*1.6,0,Math.PI*2); ctx.stroke();
+      ctx.lineWidth=1;
+    }
+  });
+  requestAnimationFrame(drawRadar);
+}
+radar.addEventListener("click", function(e){
+  var rect=radar.getBoundingClientRect();
+  var mx=e.clientX-rect.left, my=e.clientY-rect.top, best=null, bd=18;
+  visible.forEach(function(r){ if (r._x==null) return; var d=Math.hypot(r._x-mx, r._y-my); if (d<bd){ bd=d; best=r; } });
+  if (best){ selectedNorad=best.sat.norad; renderList(); renderDetail(); }
+});
+requestAnimationFrame(drawRadar);
+
+/* ---------- boot ---------- */
+if (typeof satellite==="undefined"){
+  setBadge("error");
+  $("loadingBox").style.display="none";
+  $("errText").textContent="satellite.js library (CDN) load မရပါ — internet စစ်ပြီး ပြန်ကြိုးစားပါ။";
+  $("errBanner").classList.add("show");
+} else {
+  loadAll();
+}
+})();
+</script>
+  </body>
+</html>
