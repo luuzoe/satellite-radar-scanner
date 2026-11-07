@@ -97,7 +97,7 @@
       .nearest-actions button.secondary{background:transparent;color:#eafff1;border-color:rgba(255,255,255,.35)}
       .satbtn.is-nearest{background:#eefaf1;outline:2px solid #0a7a3d;outline-offset:-2px}
       @media (prefers-color-scheme: dark){.satbtn.is-nearest{background:#12281a;outline-color:#2eff8f}}
-      .nearest-badge{display:inline-block;font-size:11px;font-weight:800;background:#0a7a3d;color:#fff;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:middle;letter-spacing:.02em}
+      .nearest-badge{display:inline-block;font-size:12px;font-weight:800;background:#0a7a3d;color:#fff;border-radius:999px;padding:3px 10px;margin-left:6px;vertical-align:middle;letter-spacing:.02em}
       @media (prefers-color-scheme: dark){.nearest-badge{background:#2eff8f;color:#04150a}}
       /* signal section */
       .signal{margin-top:14px}
@@ -181,6 +181,51 @@
       .pass .when{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:700;margin:6px 0 2px}
       .pass p{margin:4px 0;color:var(--muted);font-size:13.5px}
       .pass p b{color:var(--ink)}
+      /* night red mode */
+      body.night{--bg:#0d0202;--bg2:#080101;--panel:#180505;--panel2:#200707;--ink:#ffd9d4;--muted:#c9908a;--line:#4d1717;--accent:#ff5147;--accent-ink:#ff857c;--chip:#260909;--warn:#ffc4bd;--warn-bg:#2b0d0a;--err:#ff9d97;--err-bg:#2e0f0f}
+      body.night .nearest{background:#180505;border-color:#4d1717;color:#ffe3df}
+      body.night .nearest::before{background:#ff5147}
+      body.night .nearest-label{color:#ff857c}
+      body.night .nearest-label::before{background:#ff5147}
+      body.night .nearest-trend{background:rgba(255,81,71,.14);color:#ffc4bd;border-color:rgba(255,81,71,.4)}
+      body.night .nearest-name small,.night .nearest-grid .k{color:#c9908a}
+      body.night .nearest-actions button{background:#ff5147;border-color:#ff5147;color:#1c0300}
+      body.night .nearest-actions button.secondary{background:transparent;color:#ffe3df}
+      body.night .nearest-badge{background:#ff5147;color:#1c0300}
+      body.night .satbtn.is-nearest{background:#2a0a0a;outline-color:#ff5147}
+      body.night .detail .arrowbox svg{stroke:#ff6b60}
+      body.night .rxbadge.good{background:#c22e24;color:#fff}
+      .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+      /* visible passes + favourites */
+      .favcard{margin:0 0 14px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;display:none}
+      .favcard.show{display:block}
+      .favcard.soon{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent)}
+      .favcard .cd{font-family:"IBM Plex Mono",monospace;font-size:clamp(26px,5vw,38px);font-weight:700;line-height:1.1;margin:4px 0}
+      .vislist{list-style:none;margin:10px 0 0;padding:0}
+      .vislist li{border-top:1px solid var(--line);padding:12px 4px}
+      .vislist li:first-child{border-top:none}
+      .vis-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+      .vis-head b{font-size:15.5px}
+      .vis-when{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:700}
+      .vis-meta{font-size:13.5px;color:var(--muted);margin-top:3px}
+      .vis-meta b{color:var(--ink)}
+      .badge{display:inline-block;font-size:11.5px;font-weight:800;border-radius:999px;padding:3px 9px;white-space:nowrap}
+      .badge.bright{background:#0a7a3d;color:#fff}
+      .badge.mid{background:#e6a817;color:#1a1200}
+      .badge.cloudbad{background:var(--err-bg);color:var(--err);border:1px solid var(--err)}
+      .badge.cloudok{background:var(--chip);color:var(--ink);border:1px solid var(--line)}
+      body.night .badge.bright{background:#c22e24}
+      .starbtn{appearance:none;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;width:38px;height:38px;font-size:19px;line-height:1;cursor:pointer;flex:none}
+      .starbtn[aria-pressed="true"]{background:#e6a817;border-color:#e6a817;color:#1a1200}
+      body.night .starbtn[aria-pressed="true"]{background:#ff5147;border-color:#ff5147;color:#1c0300}
+      .favmini{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700}
+      /* ground track */
+      .track-wrap{position:relative;width:100%;aspect-ratio:2/1;background:#04140b;border-radius:12px;overflow:hidden}
+      body.night .track-wrap{background:#140303}
+      canvas#track{position:absolute;inset:0;width:100%;height:100%;display:block}
+      .track-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12.5px;color:var(--muted)}
+      .track-legend span{display:inline-flex;align-items:center;gap:6px}
+      .track-legend .sw{width:14px;height:3px;border-radius:2px;flex:none}
       /* banners */
       .banner{border-radius:12px;padding:14px 16px;margin:0 0 14px;font-size:14.5px;display:none}
       .banner.show{display:block}
@@ -244,6 +289,15 @@
         <p style="margin:10px 0 0;font-size:12.5px;color:#9ed8b1">Range = မင်းနေရာကနေ ဂြိုလ်တုဆီ တည့်တည့်အကွာအဝေး။ ၁.၆ စက္ကန့်တခါ ပြန်တွက်တယ် — နီးလာရင် ကိန်းက live လျော့နေတာ မြင်ရမယ်။ Radar ပေါ်မှာလည်း အဖြူရောင်ဝိုင်း + “NEAREST” တံဆိပ်နဲ့ ပေါ်နေမယ်။</p>
       </section>
 
+      <section class="favcard" id="favCard" aria-label="အကြိုက် ဂြိုလ်တု သတိပေးချက်">
+        <div class="vis-head">
+          <span class="favmini">★ အကြိုက်မှတ်ထားသော ဂြိုလ်တု · Favourite alert</span>
+          <span class="badge mid" id="favState">—</span>
+        </div>
+        <div class="cd" id="favCountdown">--:--:--</div>
+        <p style="margin:0;font-size:14px" id="favText">ISS နဲ့ Tiangong pass data တွက်ပြီးရင် ဒီမှာ countdown ပေါ်မယ်။ လာမယ့် ၁ နာရီအတွင်း ဖြတ်မယ်ဆိုရင် ဒီကတ်က မီးလင်းပြီး သတိပေးမယ်။ (ဒီ page ကို ဖွင့်ထားမှ countdown အလုပ်လုပ်မယ် — background notification မဟုတ်ပါ။)</p>
+      </section>
+
       <div class="banner err" id="errBanner" role="alert">
         <b>TLE data ယူမရပါ။</b> <span id="errText">CelesTrak server ကို ဆက်သွယ်မရပါ — internet connection စစ်ပြီး ပြန်ကြိုးစားပါ။ အတု data နဲ့ အစားမထိုးပါ။</span>
         <br /><button class="btn" id="retryBtn" type="button">ပြန်ကြိုးစားမယ် · Retry</button>
@@ -264,6 +318,10 @@
         <button class="btn" id="reloadBtn" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
           TLE ပြန်ယူမယ်
+        </button>
+        <button class="btn" id="nightBtn" type="button" aria-pressed="false" title="ညမှာ မျက်စိမစူးအောင် အနီရောင် mode">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          ည mode · အနီရောင်
         </button>
         <div class="search"><input id="searchInput" type="search" placeholder="ဂြိုဟ်တု နာမည် / NORAD ID ရှာရန်… ဥပမာ ISS, STARLINK-1008" aria-label="ဂြိုဟ်တုရှာရန်" /></div>
       </div>
@@ -295,7 +353,7 @@
 
           <section class="card listcard" aria-label="အခု အပေါ်မှာရှိသော ဂြိုဟ်တုများ">
             <h2>အခု မိုးကုပ်အတွင်းမှာ ရှိတယ် · Overhead now <span class="mono" id="listCount"></span></h2>
-            <p class="hint">အနီးဆုံး ဂြိုလ်တုကို အပေါ်ဆုံးမှာ highlight နဲ့ ပြထားပြီး ကျန်တာကို Elevation အမြင့်ဆုံးကနေ စီထားတယ်။ Elevation 10° အထက်ဆို မြင်နိုင်ခြေ ပိုကောင်းတယ်။</p>
+            <p class="hint">အနီးဆုံး ဂြိုလ်တုကို အပေါ်ဆုံးမှာ highlight နဲ့ ပြထားပြီး ကျန်တာကို Elevation အမြင့်ဆုံးကနေ စီထားတယ်။ စာရင်းမှာ အများဆုံး 120 လုံးပဲ ပြတယ် — ခေါင်းစဉ်က (ပြထားတာ / စုစုပေါင်း) နဲ့ အရေအတွက်အပြည့်ကို အပေါ်က stat မှာ ကြည့်ပါ။ Elevation 10° အထက်ဆို မြင်နိုင်ခြေ ပိုကောင်းတယ်။</p>
             <ul class="satlist" id="satList"></ul>
             <div class="empty" id="listEmpty" style="display:none">ဒီစစ်ထုတ်မှုနဲ့ အခု မိုးကုပ်အတွင်း ဂြိုဟ်တု မရှိသေးပါ။ ခဏစောင့်ရင် LEO ဂြိုဟ်တုတွေ ဆက်တိုက် ဝင်လာပါလိမ့်မယ်။</div>
           </section>
@@ -304,18 +362,40 @@
 
       <div class="passes">
         <section class="pass" aria-label="ISS နောက်ထပ် ဖြတ်သန်းမှု">
-          <h3>ISS · အပြည်ပြည်ဆိုင်ရာ အာကာသစခန်း</h3>
+          <div class="vis-head"><h3>ISS · အပြည်ပြည်ဆိုင်ရာ အာကာသစခန်း</h3><button class="starbtn" id="favIss" type="button" aria-pressed="true" title="ISS ကို အကြိုက်မှတ် / ဖြုတ်">★</button></div>
           <p>NORAD 25544 · လူလိုက်ပါတဲ့ စခန်း · အမြင့် ~420 km</p>
           <div class="when" id="issPass">တွက်နေတယ်…</div>
           <p id="issPassD">နောက် 48 နာရီအတွင်း Elevation 10° အထက် ဖြတ်သန်းမှုကို SGP4 နဲ့ ရှာနေတယ်။</p>
+          <p id="issVis"></p>
         </section>
         <section class="pass" aria-label="Tiangong နောက်ထပ် ဖြတ်သန်းမှု">
-          <h3>Tiangong (CSS) · တရုတ် အာကာသစခန်း</h3>
+          <div class="vis-head"><h3>Tiangong (CSS) · တရုတ် အာကာသစခန်း</h3><button class="starbtn" id="favCss" type="button" aria-pressed="true" title="Tiangong ကို အကြိုက်မှတ် / ဖြုတ်">★</button></div>
           <p>NORAD 48274 · TIANHE module · အမြင့် ~390 km</p>
           <div class="when" id="cssPass">တွက်နေတယ်…</div>
           <p id="cssPassD">နောက် 48 နာရီအတွင်း Elevation 10° အထက် ဖြတ်သန်းမှုကို SGP4 နဲ့ ရှာနေတယ်။</p>
+          <p id="cssVis"></p>
         </section>
       </div>
+
+      <section class="card" style="margin-top:14px" aria-label="ဒီည မြင်ရမယ့် ဂြိုလ်တုများ">
+        <h2>ဒီည မျက်စိနဲ့ မြင်ရမယ့် ဖြတ်သန်းမှုများ · Visible passes</h2>
+        <p class="hint">မျက်စိနဲ့ တကယ်မြင်ရဖို့ အခြေအနေ ၂ ခု တပြိုင်နက် လိုတယ် — (၁) ဂြိုလ်တုကို <b>နေရောင်ထိနေရမယ်</b> (ကမ္ဘာ့အရိပ်ထဲ ဝင်နေရင် မမြင်ရပါ)၊ (၂) မင်းနေရာမှာ <b>မှောင်နေရမယ်</b> (ညနေ ဆည်းဆာ / ည / အရုဏ်)။ အောက်က စာရင်းက အဲ့ဒီ ၂ ခုလုံး ကိုက်တဲ့ pass တွေပဲ — နောက် ၂၄ နာရီအတွင်း။ တောက်ပမှုက အကွာအဝေးနဲ့ အမြင့်ထောင့်ပေါ် မူတည်တဲ့ <b>ခန့်မှန်းချက်</b> ပဲ။</p>
+        <p class="hint" id="cloudLine">တိမ်အခြေအနေ: ယူနေတယ်… (Open-Meteo)</p>
+        <ul class="vislist" id="visList"></ul>
+        <div class="empty" id="visEmpty" style="display:none">နောက် ၂၄ နာရီအတွင်း မျက်စိနဲ့ မြင်နိုင်တဲ့ ISS / Tiangong pass မရှိပါ — ဂြိုလ်တု နေရောင်မထိတဲ့ အချိန် (သို့) နေ့ဘက် pass တွေချည်း ဖြစ်နေလို့ပါ။ မနက်ဖြန် ပြန်စစ်ပါ။</div>
+      </section>
+
+      <section class="card" style="margin-top:14px" aria-label="Ground track မြေပုံ">
+        <h2>Ground Track · မြေပုံပေါ်က လမ်းကြောင်း</h2>
+        <p class="hint">ဂြိုလ်တုက ကမ္ဘာပေါ် <b>ဘယ်နေရာရဲ့ အပေါ်တည့်တည့်</b>မှာ ရှိနေလဲ (sub-point) နဲ့ orbit လမ်းကြောင်းကို latitude/longitude ဇယားကွက်ပေါ် ဆွဲပြထားတာ။ အစက်ကြီး = အခု တည်နေရာ · လိုင်း = အရင် ~၅၀ မိနစ် + နောက် ~၁၀၀ မိနစ် လမ်းကြောင်း။ အဝါရောင် ◎ = မင်းနေရာ။ ရွေးထားတဲ့ ဂြိုလ်တုကိုလည်း အဖြူလိုင်းနဲ့ ပြတယ်။</p>
+        <div class="track-wrap"><canvas id="track" aria-label="ဂြိုလ်တု ground track လမ်းကြောင်း"></canvas></div>
+        <div class="track-legend">
+          <span><span class="sw" style="background:#ffd166"></span>ISS လမ်းကြောင်း</span>
+          <span><span class="sw" style="background:#ff8ac2"></span>Tiangong လမ်းကြောင်း</span>
+          <span><span class="sw" style="background:#ffffff"></span>ရွေးထားသော ဂြိုလ်တု</span>
+          <span id="trackSubs" class="mono"></span>
+        </div>
+      </section>
 
       <section class="card signal" aria-label="Signal နားထောင်ခြင်း">
         <h2>Signal နားထောင်ခြင်း · Receive Signals</h2>
@@ -363,7 +443,7 @@
       </section>
 
       <footer>
-        <p><b>Data source:</b> TLE (Two-Line Elements) — <a href="https://celestrak.org/NORAD/elements/" target="_blank" rel="noopener">CelesTrak</a> (NORAD catalog), browser ကနေ တိုက်ရိုက် fetch လုပ်ထားတာ။ <span id="srcLine">Fetched: — · TLE epoch: —</span> တည်နေရာတွက်ချက်မှု: SGP4 propagator — <a href="https://github.com/shashwatak/satellite-js" target="_blank" rel="noopener">satellite.js</a> v5.0.0, သင့် browser ထဲမှာပဲ တွက်တယ်။</p>
+        <p><b>Data source:</b> TLE (Two-Line Elements) — <a href="https://celestrak.org/NORAD/elements/" target="_blank" rel="noopener">CelesTrak</a> (NORAD catalog), browser ကနေ တိုက်ရိုက် fetch လုပ်ထားတာ။ <span id="srcLine">Fetched: — · TLE epoch: —</span> တည်နေရာတွက်ချက်မှု: SGP4 propagator — <a href="https://github.com/shashwatak/satellite-js" target="_blank" rel="noopener">satellite.js</a> v5.0.0, သင့် browser ထဲမှာပဲ တွက်တယ်။ တိမ်အခြေအနေ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> forecast (နာရီအလိုက် cloud cover %)။ နေရောင်ထိ/အရိပ် တွက်ချက်မှုက browser ထဲမှာပဲ Sun position နဲ့ cylindrical shadow model နဲ့ တွက်တယ် — တောက်ပမှုက ခန့်မှန်းချက်ပဲ။</p>
         <p><b>တိကျမှု မှတ်ချက်:</b> TLE + SGP4 တည်နေရာဟာ ပုံမှန်အားဖြင့် ကီလိုမီတာ အနည်းငယ်အတွင်း တိကျတယ် — ကောင်းကင်မှာ မျက်စိနဲ့ လိုက်ကြည့်ဖို့ လုံလောက်ပေမယ့် navigation အဆင့် မဟုတ်ပါ။ Fetch မအောင်မြင်ရင် အတု တည်နေရာ လုံးဝ မပြပါ — error ပြပြီး ပြန်ကြိုးစားခိုင်းပါတယ်။ ကြည်လင်တဲ့ ညနေ/မနက်ခင်းမှာ ISS နဲ့ Tiangong ကို အလင်းဝင်းဝင်း အစက်တစ်ခုအနေနဲ့ သာမန်မျက်စိနဲ့ မြင်နိုင်တယ်။</p>
       </footer>
     </div>
@@ -415,6 +495,14 @@ var epochMin = null, epochMax = null;
 var computeBusy = false;
 var lastComputeMs = 0;
 var passCache = { "25544": null, "48274": null };
+var nightMode = false;
+var favs = { "25544": true, "48274": true };
+var stationPasses = { "25544": [], "48274": [] };
+var passesReady = false;
+var passToken = 0;
+var cloudByHour = null;   // ms-hour -> cloud cover %
+var cloudNow = null;
+var cloudNote = "";
 
 var $ = function(id){ return document.getElementById(id); };
 var radar = $("radar"), ctx = radar.getContext("2d");
@@ -431,6 +519,82 @@ function compass(az){
   return dirs[Math.round(az/45)%8];
 }
 function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+/* ---------- Sun position / illumination ---------- */
+/* Low-precision geocentric Sun direction in ECI (unit vector). Good to a
+   fraction of a degree — enough for shadow + darkness checks. */
+function sunEciUnit(date){
+  var jd = date.getTime()/86400000 + 2440587.5;
+  var n = jd - 2451545.0;
+  var L = ((280.460 + 0.9856474*n) % 360 + 360) % 360;
+  var g = ((357.528 + 0.9856003*n) % 360) * Math.PI/180;
+  var lam = (L + 1.915*Math.sin(g) + 0.020*Math.sin(2*g)) * Math.PI/180;
+  var eps = 23.439 * Math.PI/180;
+  return { x: Math.cos(lam), y: Math.cos(eps)*Math.sin(lam), z: Math.sin(eps)*Math.sin(lam) };
+}
+/* Cylindrical Earth-shadow test: sunlit unless behind Earth relative to Sun. */
+function isSunlit(posEci, sunU){
+  var dot = posEci.x*sunU.x + posEci.y*sunU.y + posEci.z*sunU.z;
+  if (dot > 0) return true;
+  var r2 = posEci.x*posEci.x + posEci.y*posEci.y + posEci.z*posEci.z;
+  var perp = Math.sqrt(Math.max(0, r2 - dot*dot));
+  return perp > 6371;
+}
+/* Sun elevation (deg) at the observer — < 0 means the Sun is below the horizon. */
+function sunAltAtObserver(date){
+  var sunU = sunEciUnit(date);
+  var dec = Math.asin(sunU.z);
+  var ra = Math.atan2(sunU.y, sunU.x);
+  var gmst = satellite.gstime(date);
+  var H = gmst + observer.lon*Math.PI/180 - ra;
+  var lat = observer.lat*Math.PI/180;
+  var s = Math.sin(lat)*Math.sin(dec) + Math.cos(lat)*Math.cos(dec)*Math.cos(H);
+  return Math.asin(Math.max(-1, Math.min(1, s)))*180/Math.PI;
+}
+function satSunlitAt(sat, date){
+  var pv = satellite.propagate(sat.satrec, date);
+  if (!pv || !pv.position || typeof pv.position.x!=="number") return false;
+  return isSunlit(pv.position, sunEciUnit(date));
+}
+
+/* ---------- Cloud cover (Open-Meteo, no key) ---------- */
+function fetchCloud(){
+  var url = "https://api.open-meteo.com/v1/forecast?latitude="+observer.lat.toFixed(4)+"&longitude="+observer.lon.toFixed(4)+"&hourly=cloud_cover&current=cloud_cover&forecast_days=3&timezone=auto";
+  fetchText(url, 20000).then(function(t){
+    var j = JSON.parse(t);
+    cloudByHour = {};
+    var times = (j.hourly && j.hourly.time) || [], vals = (j.hourly && j.hourly.cloud_cover) || [];
+    for (var i=0;i<times.length;i++){
+      var d = new Date(times[i]);
+      if (!isNaN(d.getTime()) && typeof vals[i]==="number") cloudByHour[Math.floor(d.getTime()/3600000)*3600000] = vals[i];
+    }
+    cloudNow = (j.current && typeof j.current.cloud_cover==="number") ? j.current.cloud_cover : cloudFor(new Date());
+    cloudNote = "";
+    renderCloudLine(); renderVisiblePasses(); updatePassCards();
+  }).catch(function(){
+    cloudByHour = null; cloudNow = null; cloudNote = "တိမ်အချက်အလက် ယူမရပါ (Open-Meteo) — internet စစ်ပြီး TLE ပြန်ယူရင် ပြန်ကြိုးစားမယ်။";
+    renderCloudLine(); renderVisiblePasses(); updatePassCards();
+  });
+}
+function cloudFor(date){
+  if (!cloudByHour) return null;
+  var k = Math.floor(date.getTime()/3600000)*3600000;
+  if (typeof cloudByHour[k]==="number") return cloudByHour[k];
+  if (typeof cloudByHour[k+3600000]==="number") return cloudByHour[k+3600000];
+  return null;
+}
+function cloudBadge(pct){
+  if (pct==null) return '<span class="badge cloudok">တိမ်: မသိရ</span>';
+  if (pct>=70) return '<span class="badge cloudbad">တိမ်ဖုံး '+pct+'% — မြင်ရခက်မယ်</span>';
+  if (pct>=40) return '<span class="badge cloudok">တိမ် '+pct+'% — အချို့နေရာ မြင်နိုင်တယ်</span>';
+  return '<span class="badge cloudok">တိမ် '+pct+'% — ကြည်လင်တယ်</span>';
+}
+function renderCloudLine(){
+  var el = $("cloudLine"); if (!el) return;
+  if (cloudNote){ el.textContent = "တိမ်အခြေအနေ: " + cloudNote; return; }
+  if (cloudNow!=null){ el.innerHTML = "တိမ်အခြေအနေ (Open-Meteo): အခု တိမ်ဖုံးနှုန်း <b>"+cloudNow+"%</b> · pass တစ်ခုချင်းစီရဲ့ အချိန်နဲ့ တိမ်နှုန်းကို အောက်မှာ တွဲပြထားတယ် — တိမ် 70%+ ဆို တောက်နေရင်တောင် မြင်ရခက်တယ်။"; return; }
+  el.textContent = "တိမ်အခြေအနေ: ယူနေတယ်… (Open-Meteo)";
+}
 
 /* ---------- clock ---------- */
 function tickClock(){
@@ -476,11 +640,58 @@ function tleEpoch(l1){
   var year = y<57 ? 2000+y : 1900+y;
   return new Date(Date.UTC(year,0,1) + (d-1)*86400000);
 }
+function fetchText(url, ms){
+  return new Promise(function(resolve, reject){
+    var ctrl = ("AbortController" in window) ? new AbortController() : null;
+    var timer = setTimeout(function(){ if (ctrl) ctrl.abort(); reject(new Error("Timeout")); }, ms);
+    fetch(url, { cache:"no-store", signal: ctrl ? ctrl.signal : undefined }).then(function(r){
+      if (!r.ok){ clearTimeout(timer); reject(new Error("HTTP "+r.status)); return; }
+      r.text().then(function(t){ clearTimeout(timer); resolve(t); }, function(e){ clearTimeout(timer); reject(e); });
+    }, function(e){ clearTimeout(timer); reject(e); });
+  });
+}
+function altHost(url){
+  return url.indexOf("celestrak.org")>=0 ? url.replace("celestrak.org","celestrak.com") : url.replace("celestrak.com","celestrak.org");
+}
+/* Fetch + parse one TLE source with retries: primary host, mirror host, primary again.
+   An empty parse (throttle page / truncated body) counts as failure and is retried. */
+function fetchTLE(url, groupId){
+  var urls = [url, altHost(url), url];
+  function attempt(i){
+    return fetchText(urls[i], 45000).then(function(t){
+      var arr = parseTLE(t, groupId);
+      if (!arr.length) throw new Error("Empty TLE");
+      return arr;
+    }).catch(function(e){
+      if (i>=urls.length-1) throw e;
+      return new Promise(function(res){ setTimeout(res, 1000*(i+1)); }).then(function(){ return attempt(i+1); });
+    });
+  }
+  return attempt(0);
+}
 function fetchGroup(g){
-  return fetch(g.url, { cache:"no-store" }).then(function(r){
-    if (!r.ok) throw new Error("HTTP "+r.status);
-    return r.text();
-  }).then(function(t){ return parseTLE(t, g.id); });
+  return fetchTLE(g.url, g.id);
+}
+/* Fallback for the Signal section: if a receivable satellite is missing from the
+   loaded groups (e.g. its group fetch failed), fetch it alone by catalog number. */
+function receivableGroup(norad){
+  if (norad==="25544") return "stations";
+  if (norad==="25338"||norad==="28654"||norad==="33591"||norad==="40069"||norad==="57166") return "weather";
+  return "amateur";
+}
+function ensureReceivable(){
+  var missing = RECEIVABLE.filter(function(def){
+    for (var i=0;i<sats.length;i++) if (sats[i].norad===def.norad) return false;
+    return true;
+  });
+  if (!missing.length) return Promise.resolve();
+  return Promise.all(missing.map(function(def){
+    var url = "https://celestrak.org/NORAD/elements/gp.php?CATNR="+def.norad+"&FORMAT=tle";
+    return fetchTLE(url, receivableGroup(def.norad)).then(function(arr){
+      arr = arr.filter(function(s){ return s.norad===def.norad; });
+      if (arr.length) sats = sats.concat(arr);
+    }).catch(function(){ /* leave missing — the row will honestly show TLE unavailable */ });
+  }));
 }
 function setBadge(state){
   var b=$("liveBadge"); if(!b) return;
@@ -500,8 +711,9 @@ function loadAll(){
     var li=document.createElement("li"); li.textContent="··· "+g.en+" — စောင့်နေတယ်"; ul.appendChild(li); rows[g.id]=li;
   });
   var done=0, failures=[];
-  var jobs = GROUPS.map(function(g){
-    return fetchGroup(g).then(function(arr){
+  var jobs = GROUPS.map(function(g, gi){
+    // Stagger starts so CelesTrak is not hit with 7 simultaneous requests (throttling).
+    return new Promise(function(res){ setTimeout(res, gi*250); }).then(function(){ return fetchGroup(g); }).then(function(arr){
       rows[g.id].textContent="✓ "+g.en+" — ဂြိုဟ်တု "+arr.length+" လုံး";
       rows[g.id].className="ok";
       sats = sats.concat(arr);
@@ -514,6 +726,9 @@ function loadAll(){
     });
   });
   Promise.all(jobs).then(function(){
+    // Signal-section satellites get an individual fallback fetch if their group failed.
+    return ensureReceivable();
+  }).then(function(){
     fetchedAt = new Date();
     if (sats.length===0){
       box.style.display="none";
@@ -538,6 +753,7 @@ function loadAll(){
     updateSourceLine();
     computeNow(true);
     computePasses();
+    fetchCloud();
   });
 }
 function updateSourceLine(){
@@ -626,7 +842,7 @@ function computeNow(first){
     }
     lastComputeMs = Math.round(performance.now()-t0);
     computeBusy = false;
-    renderStats(); renderList(); renderDetail(); renderNearest(nearest); renderReceivable();
+    renderStats(); renderList(); renderDetail(); renderNearest(nearest); renderReceivable(); drawTrack();
     setTimeout(function(){ computeNow(false); }, 1600);
   }
   chunk();
@@ -654,14 +870,15 @@ function renderStats(){
 }
 function renderList(){
   var ul=$("satList"); ul.innerHTML="";
-  var rows = visible.filter(matchesFilter).slice();
+  var allRows = visible.filter(matchesFilter);
+  var rows = allRows.slice();
   rows.sort(function(a,b){
     if (a.sat.norad===nearestNorad) return -1;
     if (b.sat.norad===nearestNorad) return 1;
     return b.el-a.el;
   });
   rows = rows.slice(0,120);
-  $("listCount").textContent = rows.length ? "("+rows.length+")" : "";
+  $("listCount").textContent = rows.length ? "("+rows.length+(allRows.length>rows.length ? " / "+allRows.length : "")+")" : "";
   $("listEmpty").style.display = rows.length? "none":"block";
   var frag=document.createDocumentFragment();
   rows.forEach(function(r){
@@ -757,8 +974,11 @@ function renderReceivable(){
     var li=document.createElement("li");
     var r=item.r, def=item.def;
     var badge, meta;
-    if (!item.sat || !r){
+    if (!item.sat){
       badge='<span class="rxbadge below">TLE မရသေးပါ</span>';
+      meta="—";
+    } else if (!r){
+      badge='<span class="rxbadge below">တွက်ချက်မရပါ · SGP4 error</span>';
       meta="—";
     } else if (r.el>=10){
       badge='<span class="rxbadge good">● အခု လက်ခံနိုင်တယ် · NOW RECEIVABLE</span>';
@@ -771,7 +991,7 @@ function renderReceivable(){
       meta="EL "+r.el.toFixed(1)+"°";
     }
     var azTxt = r ? " · AZ "+r.az.toFixed(0)+"° "+compass(r.az)[0] : "";
-    li.innerHTML = '<div class="rxmain"><b>'+esc(def.name)+'</b> <span class="freq">'+esc(def.freq)+'</span><p><b style="color:var(--ink)">'+esc(def.mode)+'</b>'+azTxt+'<br>'+esc(def.desc)+'</p></div><div class="rxmeta">'+badge+'<div style="margin-top:6px">'+meta+'</div></div>';
+    li.innerHTML = '<div class="rxmain"><b>'+esc(def.name)+'</b> <span class="freq">· '+esc(def.freq)+'</span><p><b style="color:var(--ink)">'+esc(def.mode)+'</b>'+azTxt+'<br>'+esc(def.desc)+'</p></div><div class="rxmeta">'+badge+'<div style="margin-top:6px">'+meta+'</div></div>';
     ul.appendChild(li);
   });
   $("rxEmpty").style.display = any? "none":"block";
@@ -783,57 +1003,173 @@ function elAt(sat, date, obsGd){
   var r=lookAngles(sat, date, gmst, obsGd);
   return r? r.el : -90;
 }
-function computePassFor(sat, doneCb){
+function passDetails(sat, startMs, endMs, obsGd){
+  var peak=-90, peakT=startMs, sunlitN=0, totalN=0;
+  for (var t=startMs; t<=endMs; t+=20000){
+    var d=new Date(t);
+    var r=lookAngles(sat, d, satellite.gstime(d), obsGd);
+    if (r && r.el>peak){ peak=r.el; peakT=t; }
+    if (satSunlitAt(sat, d)) sunlitN++;
+    totalN++;
+  }
+  var rs=lookAngles(sat, new Date(startMs), satellite.gstime(new Date(startMs)), obsGd);
+  var re=lookAngles(sat, new Date(endMs), satellite.gstime(new Date(endMs)), obsGd);
+  var rp=lookAngles(sat, new Date(peakT), satellite.gstime(new Date(peakT)), obsGd);
+  var sunAltPeak = sunAltAtObserver(new Date(peakT));
+  var sunlitFrac = totalN? sunlitN/totalN : 0;
+  return {
+    sat: sat, start: new Date(startMs), end: new Date(endMs),
+    peak: peak, peakT: new Date(peakT),
+    startAz: rs? rs.az : null, endAz: re? re.az : null, peakAz: rp? rp.az : null,
+    peakRange: rp? rp.range : null,
+    sunlitFrac: sunlitFrac, sunAltPeak: sunAltPeak,
+    visible: (sunlitFrac>=0.4 && sunAltPeak < 0)
+  };
+}
+function scanPasses(sat, token, cb){
   var obsGd=observerGd();
   var start=Date.now(), limit=start+48*3600*1000, step=30000;
-  var prev=elAt(sat, new Date(start), obsGd), prevT=start;
-  var found=null, t=start+step, guard=0;
-  function scan(){
+  var raw=[], inPass=false, passStart=0;
+  var prev=elAt(sat, new Date(start), obsGd), prevT=start, t=start+step;
+  function refine(lo, hi, rising){
+    for (var i=0;i<10;i++){ var mid=(lo+hi)/2; var e=elAt(sat,new Date(mid),obsGd); if (rising){ if (e>10) hi=mid; else lo=mid; } else { if (e>10) lo=mid; else hi=mid; } }
+    return rising? hi : lo;
+  }
+  function chunk(){
+    if (token!==passToken) return;
     var end=performance.now()+12;
     while (t<limit && performance.now()<end){
       var el=elAt(sat, new Date(t), obsGd);
-      if (prev<=10 && el>10 && !found){
-        // refine crossing between prevT and t
-        var lo=prevT, hi=t;
-        for (var i=0;i<10;i++){ var mid=(lo+hi)/2; if (elAt(sat,new Date(mid),obsGd)>10) hi=mid; else lo=mid; }
-        // find peak until it drops below 10 again
-        var peak=el, peakT=t, tt=t;
-        while (tt<limit && guard++<20000){
-          tt+=step;
-          var e2=elAt(sat,new Date(tt), obsGd);
-          if (e2>peak){ peak=e2; peakT=tt; }
-          if (e2<10) break;
-        }
-        found={ start:new Date(hi), peak:peak, peakT:new Date(peakT), end:new Date(tt) };
-        break;
-      }
+      if (!inPass && prev<=10 && el>10){ passStart=refine(prevT, t, true); inPass=true; }
+      else if (inPass && prev>10 && el<=10){ raw.push({s:passStart, e:refine(prevT, t, false)}); inPass=false; }
       prev=el; prevT=t; t+=step;
     }
-    if (found || t>=limit){ doneCb(found); return; }
-    setTimeout(scan,0);
+    if (t<limit){ setTimeout(chunk,0); return; }
+    if (inPass) raw.push({s:passStart, e:limit});
+    cb(raw.map(function(rw){ return passDetails(sat, rw.s, rw.e, obsGd); }));
   }
-  scan();
+  chunk();
+}
+function brightnessOf(p){
+  if (p.peak>=55) return { label:"အရမ်းတောက်", cls:"bright" };
+  if (p.peak>=30) return { label:"တောက်", cls:"bright" };
+  return { label:"အလင်းအလတ်စား", cls:"mid" };
 }
 function computePasses(){
+  var token=++passToken;
+  passesReady=false;
   var targets={};
-  sats.forEach(function(s){ if (s.norad==="25544") targets.iss=s; if (s.norad==="48274") targets.css=s; });
-  [["iss","issPass","issPassD"],["css","cssPass","cssPassD"]].forEach(function(cfg){
-    var sat=targets[cfg[0]]; if(!sat) return;
-    computePassFor(sat, function(p){
-      if (!p){
-        $(cfg[1]).textContent="48 နာရီအတွင်း မရှိပါ";
-        $(cfg[2]).textContent="နောက် 48 နာရီအတွင်း Elevation 10° အထက် ဖြတ်သန်းမှု မရှိပါ။ နောက်ရက်တွေ ပြန်စစ်ပါ။";
-        passCache[sat.norad]=null; return;
-      }
-      var when = fmtDT(p.start)+" → "+fmtTimeShort(p.end);
-      var day = p.start.toDateString()===new Date().toDateString() ? "ဒီနေ့ " : "";
-      $(cfg[1]).textContent = day+when;
-      $(cfg[2]).innerHTML = "အမြင့်ဆုံး Elevation <b>"+p.peak.toFixed(0)+"°</b> · "+fmtTimeShort(p.peakT)+" မှာ · ကြာချိန် ~<b>"+Math.max(1,Math.round((p.end-p.start)/60000))+" မိနစ်</b> · ညနေ/အရုဏ် ကြည်လင်ရင် မျက်စိနဲ့ မြင်နိုင်တယ်။";
-      passCache[sat.norad] = day+fmtDT(p.start)+" · max "+p.peak.toFixed(0)+"°";
-      renderDetail();
+  sats.forEach(function(s){ if (s.norad==="25544") targets["25544"]=s; if (s.norad==="48274") targets["48274"]=s; });
+  var ids=Object.keys(targets);
+  if (!ids.length){ updatePassCards(); return; }
+  var done=0;
+  ids.forEach(function(id){
+    scanPasses(targets[id], token, function(list){
+      if (token!==passToken) return;
+      stationPasses[id]=list;
+      var first=list[0];
+      passCache[id]= first ? ((first.start.toDateString()===new Date().toDateString()?"ဒီနေ့ ":"")+fmtDT(first.start)+" · max "+first.peak.toFixed(0)+"°") : null;
+      done++;
+      if (done>=ids.length){ passesReady=true; }
+      updatePassCards(); renderVisiblePasses(); updateFavCard(); renderDetail();
     });
   });
 }
+function updatePassCards(){
+  [["25544","issPass","issPassD","issVis"],["48274","cssPass","cssPassD","cssVis"]].forEach(function(cfg){
+    var whenEl=$(cfg[1]); if(!whenEl) return;
+    var list=stationPasses[cfg[0]];
+    var p=list && list[0];
+    if (!passesReady && !p){ return; }
+    if (!p){
+      whenEl.textContent="48 နာရီအတွင်း မရှိပါ";
+      $(cfg[2]).textContent="နောက် 48 နာရီအတွင်း Elevation 10° အထက် ဖြတ်သန်းမှု မရှိပါ။ နောက်ရက်တွေ ပြန်စစ်ပါ။";
+      $(cfg[3]).innerHTML=""; return;
+    }
+    var day = p.start.toDateString()===new Date().toDateString() ? "ဒီနေ့ " : "";
+    whenEl.textContent = day+fmtDT(p.start)+" → "+fmtTimeShort(p.end);
+    var cs=compass(p.startAz||0), ce=compass(p.endAz||0);
+    $(cfg[2]).innerHTML = "အမြင့်ဆုံး Elevation <b>"+p.peak.toFixed(0)+"°</b> · "+fmtTimeShort(p.peakT)+" မှာ · ကြာချိန် ~<b>"+Math.max(1,Math.round((p.end-p.start)/60000))+" မိနစ်</b> · "+cs[1]+" ("+cs[0]+") ကနေ "+ce[1]+" ("+ce[0]+") ဆီ။";
+    var cloud = cloudFor(p.start);
+    $(cfg[3]).innerHTML = (p.visible
+      ? '<span class="badge bright">မျက်စိနဲ့ မြင်နိုင်တယ်</span> နေရောင်ထိနေပြီး မင်းနေရာမှာ မှောင်နေမယ့် အချိန်။ '
+      : '<span class="badge mid">မျက်စိနဲ့ မြင်ရခက်</span> '+(p.sunAltPeak>=0 ? "နေ့ဘက် / အလင်းများနေတဲ့ အချိန်မို့ပါ။ " : "ဂြိုလ်တု ကမ္ဘာ့အရိပ်ထဲ ဝင်နေလို့ နေရောင်မထိပါ။ "))
+      + cloudBadge(cloud);
+  });
+}
+/* ---------- Visible tonight list ---------- */
+function renderVisiblePasses(){
+  var ul=$("visList"); if(!ul) return;
+  ul.innerHTML="";
+  var now=Date.now(), horizon=now+24*3600*1000;
+  var all=[];
+  ["25544","48274"].forEach(function(id){
+    (stationPasses[id]||[]).forEach(function(p){ if (p.visible && p.end.getTime()>now && p.start.getTime()<horizon) all.push(p); });
+  });
+  all.sort(function(a,b){ return a.start-b.start; });
+  $("visEmpty").style.display = (all.length || !passesReady)? "none":"block";
+  all.slice(0,8).forEach(function(p){
+    var li=document.createElement("li");
+    var cs=compass(p.startAz||0), ce=compass(p.endAz||0), cp=compass(p.peakAz||0);
+    var br=brightnessOf(p);
+    var day = p.start.toDateString()===new Date().toDateString() ? "ဒီနေ့ " : (p.start.toDateString()===new Date(Date.now()+86400000).toDateString() ? "မနက်ဖြန် " : fmtDate(p.start)+" ");
+    var cloud = cloudFor(p.start);
+    var isFav = !!favs[p.sat.norad];
+    li.innerHTML =
+      '<div class="vis-head"><b>'+esc(p.sat.disp)+'</b><span style="display:inline-flex;gap:6px;align-items:center"><span class="badge '+br.cls+'">'+br.label+'</span><button class="starbtn" type="button" data-fav="'+p.sat.norad+'" aria-pressed="'+(isFav?"true":"false")+'" title="အကြိုက်မှတ် / ဖြုတ်">★</button></span></div>'+
+      '<div class="vis-when">'+day+fmtTimeShort(p.start)+' → '+fmtTimeShort(p.end)+'</div>'+
+      '<div class="vis-meta">'+cs[1]+' ('+cs[0]+') ကနေ စပေါ်မယ် → အမြင့်ဆုံး '+p.peak.toFixed(0)+'° ('+cp[1]+' '+cp[0]+', '+fmtTimeShort(p.peakT)+') → '+ce[1]+' ('+ce[0]+') မှာ ပျောက်မယ် · ကြာချိန် ~<b>'+Math.max(1,Math.round((p.end-p.start)/60000))+' မိနစ်</b>'+(p.peakRange? ' · အနီးဆုံး အကွာအဝေး ~'+Math.round(p.peakRange)+' km':'')+'</div>'+
+      '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px"><span class="badge bright">မျက်စိနဲ့ မြင်နိုင်တယ်</span>'+cloudBadge(cloud)+(cloud!=null && cloud>=70 ? '<span style="font-size:12.5px;color:var(--err);font-weight:700">တိမ်ဖုံးနေရင် တောက်နေရင်တောင် မြင်ရမှာ မဟုတ်ပါ</span>':"")+'</div>';
+    ul.appendChild(li);
+  });
+  ul.querySelectorAll("[data-fav]").forEach(function(b){
+    b.addEventListener("click", function(){ toggleFav(b.getAttribute("data-fav")); });
+  });
+}
+/* ---------- Favourites + countdown ---------- */
+function toggleFav(norad){
+  favs[norad]=!favs[norad];
+  syncFavButtons(); renderVisiblePasses(); updateFavCard();
+}
+function syncFavButtons(){
+  var a=$("favIss"), b=$("favCss");
+  if (a) a.setAttribute("aria-pressed", favs["25544"]?"true":"false");
+  if (b) b.setAttribute("aria-pressed", favs["48274"]?"true":"false");
+}
+function nextFavPass(){
+  var now=Date.now(), best=null;
+  Object.keys(favs).forEach(function(id){
+    if (!favs[id]) return;
+    (stationPasses[id]||[]).forEach(function(p){
+      if (p.end.getTime()<now) return;
+      if (!best || p.start<best.start) best=p;
+    });
+  });
+  return best;
+}
+function fmtCountdown(ms){
+  if (ms<0) ms=0;
+  var s=Math.floor(ms/1000);
+  var h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=s%60;
+  return (h>0? h+":" : "")+pad(m)+":"+pad(ss);
+}
+function updateFavCard(){
+  var card=$("favCard"); if(!card) return;
+  var anyFav = favs["25544"]||favs["48274"];
+  if (!anyFav){ card.classList.remove("show","soon"); return; }
+  var p=nextFavPass();
+  if (!p){ card.classList.add("show"); card.classList.remove("soon"); $("favCountdown").textContent="—"; $("favState").textContent="Pass မရှိသေး"; $("favText").textContent="နောက် 48 နာရီအတွင်း အကြိုက်မှတ်ထားတဲ့ ဂြိုလ်တုရဲ့ pass မတွေ့သေးပါ (သို့) တွက်နေတုန်း။"; return; }
+  card.classList.add("show");
+  var now=Date.now();
+  var inProgress = p.start.getTime()<=now && p.end.getTime()>=now;
+  var msTo = p.start.getTime()-now;
+  card.classList.toggle("soon", inProgress || msTo<=3600000);
+  $("favState").textContent = inProgress ? "အခု ဖြတ်နေတယ်" : (msTo<=3600000 ? "၁ နာရီအတွင်း ဖြတ်မယ်" : "နောက် pass");
+  $("favCountdown").textContent = inProgress ? "အခု ကောင်းကင်မှာ ရှိတယ်" : fmtCountdown(msTo);
+  var cs=compass(p.startAz||0);
+  $("favText").innerHTML = "<b>"+esc(p.sat.disp)+"</b> · "+fmtDT(p.start)+" → "+fmtTimeShort(p.end)+" · "+cs[1]+" ("+cs[0]+") ကနေ စမယ် · အမြင့်ဆုံး "+p.peak.toFixed(0)+"° · "+(p.visible? "မျက်စိနဲ့ မြင်နိုင်တဲ့ pass။" : "ဒီ pass က မျက်စိနဲ့ မြင်ရခက်နိုင်တယ် (နေရောင်/အလင်း အခြေအနေ)။")+" "+cloudBadge(cloudFor(p.start));
+}
+setInterval(function(){ if (passesReady) updateFavCard(); }, 1000);
 
 /* ---------- filters / controls ---------- */
 var chipsBox=$("filterChips");
@@ -882,7 +1218,17 @@ $("gpsBtn").addEventListener("click", function(){
   }, { enableHighAccuracy:true, timeout:12000 });
 });
 var passTimer=null;
-function computePassesSoon(){ clearTimeout(passTimer); passTimer=setTimeout(computePasses, 300); }
+function computePassesSoon(){ clearTimeout(passTimer); passTimer=setTimeout(function(){ computePasses(); fetchCloud(); }, 300); }
+/* night red mode + favourite star buttons */
+$("nightBtn").addEventListener("click", function(){
+  nightMode=!nightMode;
+  document.body.classList.toggle("night", nightMode);
+  this.setAttribute("aria-pressed", nightMode?"true":"false");
+  drawTrack();
+});
+$("favIss").addEventListener("click", function(){ toggleFav("25544"); });
+$("favCss").addEventListener("click", function(){ toggleFav("48274"); });
+syncFavButtons();
 function syncObserverUI(){
   $("stObs").textContent=observer.name;
   $("stObsCoord").textContent=Math.abs(observer.lat).toFixed(4)+"° "+(observer.lat>=0?"N":"S")+" · "+Math.abs(observer.lon).toFixed(4)+"° "+(observer.lon>=0?"E":"W")+" · "+observer.src;
@@ -906,25 +1252,27 @@ function drawRadar(now){
   if (!reduceMotion) sweepAngle=(sweepAngle+dt*360/5)%360; else sweepAngle=315;
   $("sweepHz").textContent = reduceMotion? "PAUSED (reduced motion)" : "5.0 s/rev";
   var cx=w/2, cy=h/2, R=Math.min(w,h)/2-26;
+  var rgb = nightMode? "255,64,48" : "46,255,143";
+  var mainHex = nightMode? "#ff4030" : "#2eff8f";
   ctx.clearRect(0,0,w,h);
   // scope background
   var grad=ctx.createRadialGradient(cx,cy,0,cx,cy,R+24);
-  grad.addColorStop(0,"#071510"); grad.addColorStop(.75,"#030a06"); grad.addColorStop(1,"#010302");
+  grad.addColorStop(0, nightMode? "#1a0505":"#071510"); grad.addColorStop(.75, nightMode? "#0d0202":"#030a06"); grad.addColorStop(1, nightMode? "#050101":"#010302");
   ctx.fillStyle=grad; ctx.fillRect(0,0,w,h);
   // rings (el 60 / 30 / 0)
-  ctx.strokeStyle="rgba(46,255,143,.28)"; ctx.lineWidth=1;
+  ctx.strokeStyle="rgba("+rgb+",.28)"; ctx.lineWidth=1;
   [R/3, 2*R/3, R].forEach(function(r){ ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke(); });
   // spokes
-  ctx.strokeStyle="rgba(46,255,143,.13)";
+  ctx.strokeStyle="rgba("+rgb+",.13)";
   for (var a=0;a<360;a+=30){
     var rad=a*Math.PI/180;
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.sin(rad), cy-R*Math.cos(rad)); ctx.stroke();
   }
   // cardinal labels
-  ctx.fillStyle="rgba(190,255,215,.9)"; ctx.font="700 13px 'IBM Plex Mono',monospace"; ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillStyle= nightMode? "rgba(255,205,198,.92)" : "rgba(190,255,215,.9)"; ctx.font="700 13px 'IBM Plex Mono',monospace"; ctx.textAlign="center"; ctx.textBaseline="middle";
   ctx.fillText("N", cx, cy-R-13); ctx.fillText("S", cx, cy+R+13);
   ctx.fillText("E", cx+R+13, cy); ctx.fillText("W", cx-R-13, cy);
-  ctx.font="500 10px 'IBM Plex Mono',monospace"; ctx.fillStyle="rgba(140,220,170,.55)";
+  ctx.font="500 10px 'IBM Plex Mono',monospace"; ctx.fillStyle= nightMode? "rgba(255,150,140,.55)" : "rgba(140,220,170,.55)";
   ctx.fillText("60°", cx+4, cy-R/3-9); ctx.fillText("30°", cx+4, cy-2*R/3-9); ctx.fillText("0° HORIZON", cx+34, cy-R-10);
   ctx.fillText("ZENITH 90°", cx, cy+14);
   // sweep wedge
@@ -932,13 +1280,13 @@ function drawRadar(now){
   for (var i=0;i<44;i++){
     var a0=sa-(i+1)*0.016, a1=sa-i*0.016;
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,a0-Math.PI/2,a1-Math.PI/2); ctx.closePath();
-    ctx.fillStyle="rgba(46,255,143,"+(0.16*(1-i/44)).toFixed(3)+")"; ctx.fill();
+    ctx.fillStyle="rgba("+rgb+","+(0.16*(1-i/44)).toFixed(3)+")"; ctx.fill();
   }
-  ctx.strokeStyle="rgba(120,255,180,.95)"; ctx.lineWidth=1.6;
+  ctx.strokeStyle= nightMode? "rgba(255,130,118,.95)" : "rgba(120,255,180,.95)"; ctx.lineWidth=1.6;
   ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.sin(sa), cy-R*Math.cos(sa)); ctx.stroke();
   ctx.lineWidth=1;
   // center
-  ctx.fillStyle="#baffd6"; ctx.beginPath(); ctx.arc(cx,cy,2.4,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle= nightMode? "#ffb3ab" : "#baffd6"; ctx.beginPath(); ctx.arc(cx,cy,2.4,0,Math.PI*2); ctx.fill();
   // satellites
   ctx.font="600 10px 'IBM Plex Mono',monospace";
   visible.forEach(function(r){
@@ -959,7 +1307,7 @@ function drawRadar(now){
     ctx.globalAlpha=1;
     var isNearest = r.sat.norad===nearestNorad;
     if (big || r.el>55 || isNearest){
-      ctx.fillStyle= isNearest? "#ffffff" : "rgba(220,255,235,.92)"; ctx.textAlign="left";
+      ctx.fillStyle= isNearest? "#ffffff" : (nightMode? "rgba(255,220,214,.92)" : "rgba(220,255,235,.92)"); ctx.textAlign="left";
       var lbl = r.sat.norad==="25544"?"ISS":(r.sat.norad==="48274"?"CSS":r.sat.name.slice(0,12));
       if (isNearest) lbl = "◉ NEAREST · "+lbl+" · "+Math.round(r.range)+" km";
       ctx.fillText(lbl, x+10, y-8);
@@ -967,7 +1315,7 @@ function drawRadar(now){
     if (isNearest){
       ctx.strokeStyle="#ffffff"; ctx.lineWidth=2;
       ctx.beginPath(); ctx.arc(x,y,radDot+11+Math.sin(now/240)*2.2,0,Math.PI*2); ctx.stroke();
-      ctx.strokeStyle="#2eff8f"; ctx.lineWidth=1.2;
+      ctx.strokeStyle=mainHex; ctx.lineWidth=1.2;
       ctx.beginPath(); ctx.arc(x,y,radDot+16+Math.sin(now/240)*2.2,0,Math.PI*2); ctx.stroke();
       ctx.lineWidth=1;
     }
@@ -987,6 +1335,96 @@ radar.addEventListener("click", function(e){
 });
 requestAnimationFrame(drawRadar);
 
+/* ---------- ground track (lat/lon plot) ---------- */
+var trackCv = $("track"), tctx = trackCv ? trackCv.getContext("2d") : null;
+function subPoint(sat, date){
+  var pv = satellite.propagate(sat.satrec, date);
+  if (!pv || !pv.position || typeof pv.position.x!=="number") return null;
+  var gmst = satellite.gstime(date);
+  var geo = satellite.eciToGeodetic(pv.position, gmst);
+  return { lat: satellite.degreesLat(geo.latitude), lon: satellite.degreesLong(geo.longitude) };
+}
+function drawTrack(){
+  if (!trackCv || !tctx) return;
+  var wrap = trackCv.parentElement;
+  var w = wrap.clientWidth, h = wrap.clientHeight;
+  if (!w || !h) return;
+  var dpr = window.devicePixelRatio||1;
+  if (trackCv.width!==Math.round(w*dpr) || trackCv.height!==Math.round(h*dpr)){
+    trackCv.width=Math.round(w*dpr); trackCv.height=Math.round(h*dpr);
+  }
+  tctx.setTransform(dpr,0,0,dpr,0,0);
+  tctx.clearRect(0,0,w,h);
+  var rgb = nightMode? "255,64,48" : "46,255,143";
+  tctx.fillStyle = nightMode? "#140303" : "#04140b";
+  tctx.fillRect(0,0,w,h);
+  function X(lon){ return (lon+180)/360*w; }
+  function Y(lat){ return (90-lat)/180*h; }
+  // graticule every 30°
+  tctx.strokeStyle="rgba("+rgb+",.14)"; tctx.lineWidth=1;
+  for (var glon=-150; glon<180; glon+=30){ tctx.beginPath(); tctx.moveTo(X(glon),0); tctx.lineTo(X(glon),h); tctx.stroke(); }
+  for (var glat=-60; glat<90; glat+=30){ tctx.beginPath(); tctx.moveTo(0,Y(glat)); tctx.lineTo(w,Y(glat)); tctx.stroke(); }
+  tctx.strokeStyle="rgba("+rgb+",.35)";
+  tctx.beginPath(); tctx.moveTo(0,Y(0)); tctx.lineTo(w,Y(0)); tctx.stroke();
+  tctx.fillStyle="rgba("+rgb+",.55)"; tctx.font="500 9.5px 'IBM Plex Mono',monospace"; tctx.textAlign="left"; tctx.textBaseline="top";
+  for (var llon=-150; llon<180; llon+=60){ tctx.fillText((llon>0? "+"+llon : ""+llon)+"°", X(llon)+3, h-13); }
+  tctx.fillText("+60°", 3, Y(60)+2); tctx.fillText("0°", 3, Y(0)+2); tctx.fillText("−60°", 3, Y(-60)+2);
+  // night shading: hemisphere opposite the Sun sub-point gets a soft shade
+  var now = new Date();
+  var sunU = sunEciUnit(now);
+  var sunDec = Math.asin(sunU.z)*180/Math.PI;
+  var sunLon = (Math.atan2(sunU.y, sunU.x) - satellite.gstime(now))*180/Math.PI;
+  sunLon = ((sunLon+540)%360)-180;
+  tctx.fillStyle="rgba(0,0,0,.30)";
+  // shade in 10° lon strips where the Sun is below horizon at equator approx — use sub-solar lon ±90
+  for (var sx=-180; sx<180; sx+=6){
+    var dLon = Math.abs(((sx+3 - sunLon + 540)%360)-180);
+    if (dLon>90) tctx.fillRect(X(sx), 0, X(sx+6)-X(sx)+1, h);
+  }
+  tctx.fillStyle="#ffd166";
+  tctx.beginPath(); tctx.arc(X(sunLon), Y(sunDec), 4, 0, Math.PI*2); tctx.fill();
+  tctx.font="700 9.5px 'IBM Plex Mono',monospace"; tctx.fillText("SUN", X(sunLon)+6, Y(sunDec)-4);
+  // observer
+  tctx.strokeStyle="#ffe27a"; tctx.lineWidth=1.6;
+  tctx.beginPath(); tctx.arc(X(observer.lon), Y(observer.lat), 6, 0, Math.PI*2); tctx.stroke();
+  tctx.fillStyle="#ffe27a";
+  tctx.beginPath(); tctx.arc(X(observer.lon), Y(observer.lat), 2, 0, Math.PI*2); tctx.fill();
+  tctx.font="700 10px 'IBM Plex Mono',monospace"; tctx.fillText("YOU", X(observer.lon)+8, Y(observer.lat)-5);
+  // tracks
+  var byNorad={};
+  sats.forEach(function(s){ byNorad[s.norad]=s; });
+  var jobs=[];
+  if (byNorad["25544"]) jobs.push({ sat:byNorad["25544"], color:"#ffd166", label:"ISS" });
+  if (byNorad["48274"]) jobs.push({ sat:byNorad["48274"], color:"#ff8ac2", label:"CSS" });
+  if (selectedNorad && selectedNorad!=="25544" && selectedNorad!=="48274" && byNorad[selectedNorad]) jobs.push({ sat:byNorad[selectedNorad], color:"#ffffff", label:byNorad[selectedNorad].name.slice(0,10) });
+  var subsTxt=[];
+  jobs.forEach(function(job){
+    var pts=[];
+    for (var m=-50; m<=100; m+=2){
+      var sp=subPoint(job.sat, new Date(now.getTime()+m*60000));
+      if (sp) pts.push({ lat:sp.lat, lon:sp.lon, past:m<0 });
+    }
+    tctx.lineWidth=1.6;
+    for (var i=1;i<pts.length;i++){
+      if (Math.abs(pts[i].lon-pts[i-1].lon)>180) continue;
+      tctx.strokeStyle=job.color; tctx.globalAlpha=pts[i].past? .30 : .92;
+      tctx.beginPath(); tctx.moveTo(X(pts[i-1].lon), Y(pts[i-1].lat)); tctx.lineTo(X(pts[i].lon), Y(pts[i].lat)); tctx.stroke();
+    }
+    tctx.globalAlpha=1;
+    var cur=subPoint(job.sat, now);
+    if (cur){
+      tctx.fillStyle=job.color;
+      tctx.beginPath(); tctx.arc(X(cur.lon), Y(cur.lat), 4.6, 0, Math.PI*2); tctx.fill();
+      tctx.strokeStyle="#04140b"; tctx.lineWidth=1.2;
+      tctx.beginPath(); tctx.arc(X(cur.lon), Y(cur.lat), 4.6, 0, Math.PI*2); tctx.stroke();
+      tctx.fillStyle="#ffffff"; tctx.font="700 10.5px 'IBM Plex Mono',monospace";
+      tctx.fillText(job.label, X(cur.lon)+8, Y(cur.lat)-6);
+      subsTxt.push(job.label+" "+Math.abs(cur.lat).toFixed(1)+"°"+(cur.lat>=0?"N":"S")+" "+Math.abs(cur.lon).toFixed(1)+"°"+(cur.lon>=0?"E":"W"));
+    }
+  });
+  var st=$("trackSubs"); if (st) st.textContent = subsTxt.join(" · ");
+}
+
 /* ---------- boot ---------- */
 if (typeof satellite==="undefined"){
   setBadge("error");
@@ -995,6 +1433,7 @@ if (typeof satellite==="undefined"){
   $("errBanner").classList.add("show");
 } else {
   loadAll();
+  fetchCloud();
 }
 })();
 </script>
