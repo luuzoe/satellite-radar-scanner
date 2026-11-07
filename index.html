@@ -77,6 +77,52 @@
       .stat .k{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.02em}
       .stat .v{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:700;margin-top:2px;overflow-wrap:anywhere}
       .stat .d{font-size:12.5px;color:var(--muted);margin-top:1px;overflow-wrap:anywhere}
+      /* nearest highlight */
+      .nearest{margin:0 0 14px;background:#071a0e;color:#eafff1;border:1.5px solid #123d22;border-radius:14px;padding:16px 18px;display:none;position:relative;overflow:hidden}
+      .nearest.show{display:block}
+      .nearest::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#2eff8f}
+      .nearest-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+      .nearest-label{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2eff8f;display:inline-flex;align-items:center;gap:8px}
+      .nearest-label::before{content:"";width:9px;height:9px;border-radius:50%;background:#2eff8f;box-shadow:0 0 0 0 rgba(46,255,143,.5);animation:pulse 1.6s infinite}
+      .nearest-trend{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:rgba(46,255,143,.14);color:#baffd6;border:1px solid rgba(46,255,143,.35)}
+      .nearest-name{font-size:clamp(20px,3.5vw,28px);font-weight:800;line-height:1.2;margin:8px 0 2px;overflow-wrap:anywhere}
+      .nearest-name small{display:block;font-size:13px;font-weight:600;color:#9ed8b1;margin-top:2px}
+      .nearest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+      .nearest-grid div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px}
+      .nearest-grid .k{font-size:11px;color:#9ed8b1;font-weight:700;letter-spacing:.03em}
+      .nearest-grid .v{font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:700;margin-top:2px}
+      .nearest-grid .v.big{font-size:22px;color:#fff}
+      .nearest-actions{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+      .nearest-actions button{appearance:none;border:1px solid #2eff8f;background:#2eff8f;color:#04150a;border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+      .nearest-actions button.secondary{background:transparent;color:#eafff1;border-color:rgba(255,255,255,.35)}
+      .satbtn.is-nearest{background:#eefaf1;outline:2px solid #0a7a3d;outline-offset:-2px}
+      @media (prefers-color-scheme: dark){.satbtn.is-nearest{background:#12281a;outline-color:#2eff8f}}
+      .nearest-badge{display:inline-block;font-size:11px;font-weight:800;background:#0a7a3d;color:#fff;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:middle;letter-spacing:.02em}
+      @media (prefers-color-scheme: dark){.nearest-badge{background:#2eff8f;color:#04150a}}
+      /* signal section */
+      .signal{margin-top:14px}
+      .signal-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;align-items:start}
+      .honest{background:var(--warn-bg);border:1px solid var(--warn);color:var(--ink);border-radius:10px;padding:12px 14px;font-size:14px}
+      .honest b{color:var(--warn)}
+      .rxlist{list-style:none;margin:12px 0 0;padding:0}
+      .rxlist li{border-top:1px solid var(--line);padding:11px 4px;display:flex;gap:10px;align-items:flex-start}
+      .rxlist li:first-child{border-top:none}
+      .rxmain{flex:1;min-width:0}
+      .rxmain b{font-size:14.5px}
+      .rxmain .freq{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:700;color:var(--accent-ink)}
+      .rxmain p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+      .rxmeta{font-family:"IBM Plex Mono",monospace;font-size:12px;text-align:right;flex:none}
+      .rxbadge{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:4px 9px;white-space:nowrap}
+      .rxbadge.good{background:#0a7a3d;color:#fff}
+      .rxbadge.marginal{background:#e6a817;color:#1a1200}
+      .rxbadge.below{background:var(--chip);color:var(--muted);border:1px solid var(--line)}
+      .guide h4{margin:14px 0 6px;font-size:14px}
+      .guide ul,.guide ol{margin:6px 0 0 18px;padding:0;font-size:14px}
+      .guide li{margin:5px 0}
+      .guide .kit{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+      .guide .kit div{background:var(--panel2);border-radius:8px;padding:9px 10px;font-size:13.5px}
+      .guide .kit b{display:block;font-size:13px}
+      @media (max-width:860px){.nearest-grid{grid-template-columns:1fr 1fr}.signal-grid{grid-template-columns:1fr}.guide .kit{grid-template-columns:1fr}}
       /* controls */
       .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
       .btn{appearance:none;border:1.5px solid var(--ink);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
@@ -179,6 +225,25 @@
         <div class="stat"><div class="k">အမြင့်ဆုံး ဂြိုဟ်တု · Highest</div><div class="v" id="stHigh">—</div><div class="d mono" id="stHighD">—</div></div>
       </section>
 
+      <section class="nearest" id="nearestCard" aria-label="အနီးဆုံး ဂြိုလ်တု">
+        <div class="nearest-top">
+          <span class="nearest-label">Nearest now · အနီးဆုံး ဂြိုလ်တု</span>
+          <span class="nearest-trend" id="nearestTrend">—</span>
+        </div>
+        <div class="nearest-name" id="nearestName">တွက်နေတယ်…<small>မိုးကုပ်အတွင်း အကွာအဝေး (range) အနည်းဆုံးကို live ရှာနေတယ်</small></div>
+        <div class="nearest-grid">
+          <div><div class="k">အကွာအဝေး · RANGE</div><div class="v big" id="nearestRange">— km</div></div>
+          <div><div class="k">အရပ် / အမြင့် · AZ / EL</div><div class="v" id="nearestAzEl">—</div></div>
+          <div><div class="k">ပျံသန်းအမြင့် · ALTITUDE</div><div class="v" id="nearestAlt">—</div></div>
+          <div><div class="k">အလျင် · VELOCITY</div><div class="v" id="nearestVel">—</div></div>
+        </div>
+        <div class="nearest-actions">
+          <button type="button" id="nearestDetailBtn">ဒီဂြိုလ်တု အသေးစိတ်ကြည့်မယ် →</button>
+          <button type="button" class="secondary" id="nearestJumpBtn">စာရင်းမှာ highlight ပြပါ</button>
+        </div>
+        <p style="margin:10px 0 0;font-size:12.5px;color:#9ed8b1">Range = မင်းနေရာကနေ ဂြိုလ်တုဆီ တည့်တည့်အကွာအဝေး။ ၁.၆ စက္ကန့်တခါ ပြန်တွက်တယ် — နီးလာရင် ကိန်းက live လျော့နေတာ မြင်ရမယ်။ Radar ပေါ်မှာလည်း အဖြူရောင်ဝိုင်း + “NEAREST” တံဆိပ်နဲ့ ပေါ်နေမယ်။</p>
+      </section>
+
       <div class="banner err" id="errBanner" role="alert">
         <b>TLE data ယူမရပါ။</b> <span id="errText">CelesTrak server ကို ဆက်သွယ်မရပါ — internet connection စစ်ပြီး ပြန်ကြိုးစားပါ။ အတု data နဲ့ အစားမထိုးပါ။</span>
         <br /><button class="btn" id="retryBtn" type="button">ပြန်ကြိုးစားမယ် · Retry</button>
@@ -209,7 +274,7 @@
       <div class="grid">
         <section class="card" aria-label="Radar">
           <h2>Radar Scope · ရေဒါမြင်ကွင်း</h2>
-          <p class="hint">အလယ် = မင်းခေါင်းတည့်တည့် (Zenith 90°) · အနားသတ် = မိုးကုပ်စက်ဝိုင်း (Horizon 0°) · အပေါ် = မြောက်အရပ်။ အစက်တစ်ခုစီ = အခု အဲ့ဒီနေရာမှာ တကယ်ရှိနေတဲ့ ဂြိုဟ်တု။</p>
+          <p class="hint">အလယ် = မင်းခေါင်းတည့်တည့် (Zenith 90°) · အနားသတ် = မိုးကုပ်စက်ဝိုင်း (Horizon 0°) · အပေါ် = မြောက်အရပ်။ အစက်တစ်ခုစီ = အခု အဲ့ဒီနေရာမှာ တကယ်ရှိနေတဲ့ ဂြိုဟ်တု။ <b>အနီးဆုံး</b> ကို အဖြူဝိုင်း + “NEAREST” နဲ့ highlight လုပ်ထားတယ်။</p>
           <div class="scope-wrap"><canvas id="radar" aria-label="ဂြိုဟ်တု radar မြင်ကွင်း"></canvas></div>
           <div class="scope-foot">
             <span>SWEEP <b id="sweepHz">—</b></span>
@@ -230,7 +295,7 @@
 
           <section class="card listcard" aria-label="အခု အပေါ်မှာရှိသော ဂြိုဟ်တုများ">
             <h2>အခု မိုးကုပ်အတွင်းမှာ ရှိတယ် · Overhead now <span class="mono" id="listCount"></span></h2>
-            <p class="hint">Elevation အမြင့်ဆုံးကနေ စီထားတယ်။ Elevation 10° အထက်ဆို အတားအဆီးမရှိရင် မြင်နိုင်ခြေ ပိုကောင်းတယ်။</p>
+            <p class="hint">အနီးဆုံး ဂြိုလ်တုကို အပေါ်ဆုံးမှာ highlight နဲ့ ပြထားပြီး ကျန်တာကို Elevation အမြင့်ဆုံးကနေ စီထားတယ်။ Elevation 10° အထက်ဆို မြင်နိုင်ခြေ ပိုကောင်းတယ်။</p>
             <ul class="satlist" id="satList"></ul>
             <div class="empty" id="listEmpty" style="display:none">ဒီစစ်ထုတ်မှုနဲ့ အခု မိုးကုပ်အတွင်း ဂြိုဟ်တု မရှိသေးပါ။ ခဏစောင့်ရင် LEO ဂြိုဟ်တုတွေ ဆက်တိုက် ဝင်လာပါလိမ့်မယ်။</div>
           </section>
@@ -252,6 +317,51 @@
         </section>
       </div>
 
+      <section class="card signal" aria-label="Signal နားထောင်ခြင်း">
+        <h2>Signal နားထောင်ခြင်း · Receive Signals</h2>
+        <p class="hint">ဂြိုလ်တုနဲ့ “ချိတ်” တာ မဟုတ်ဘူး — ဂြိုလ်တု ထုတ်လွှင့်နေတဲ့ ရေဒီယို signal ကို <b>ဖမ်းနားထောင်တာ / ပုံဒေါင်းတာ</b> ပဲ။ အောက်က စာရင်းက အခု သင့်ခေါင်းပေါ်မှာ တကယ်ရှိနေတဲ့ လက်ခံနိုင်တဲ့ ဂြိုလ်တုတွေကို live TLE နဲ့ တွက်ပြထားတာ။</p>
+
+        <div class="honest"><b>အမှန်အတိုင်း ပြောရရင်:</b> ဒီ website ကိုယ်တိုင်က signal ဖမ်းလို့ <b>မရပါဘူး</b>။ ဖုန်း / browser မှာ SDR receiver မပါလို့ webpage က 137 MHz / 145 MHz ကို တိုက်ရိုက် နားထောင်လို့ မရပါ။ ဒီ page က လုပ်ပေးနိုင်တာက — ဘယ်ဂြိုလ်တု၊ ဘယ် frequency နဲ့၊ ဘယ်အချိန် ခေါင်းပေါ်ရောက်ပြီး ဖမ်းဖို့ အကောင်းဆုံးလဲ ဆိုတာကို live ပြပေးတာပဲ။ တကယ် ဖမ်းဖို့က အောက်က ပစ္စည်းတွေ လိုတယ်။</div>
+
+        <div class="signal-grid" style="margin-top:14px">
+          <div>
+            <h3 style="margin:0;font-size:15px">အခု ဖမ်းလို့ရနိုင်တဲ့ ဂြိုလ်တုများ · Receivable now</h3>
+            <p style="margin:4px 0 0;font-size:13px;color:var(--muted)">Elevation ≥ 10° ဆို <span class="rxbadge good">အခု လက်ခံနိုင်တယ်</span> · 0–10° ဆို အနားသတ်နားမို့ အားနည်းနိုင်တယ် · အောက်ရောက်နေရင် နောက်ဖြတ်ချိန် စောင့်ပါ။</p>
+            <ul class="rxlist" id="rxList"></ul>
+            <div class="empty" id="rxEmpty">TLE data ရရင် NOAA / METEOR / ISS နဲ့ အပျော်တမ်း ဂြိုလ်တုတွေရဲ့ live အနေအထား ဒီမှာ ပေါ်မယ်။</div>
+          </div>
+
+          <div class="guide">
+            <h3 style="margin:0;font-size:15px">ဘယ်လို ဖမ်းရမလဲ · Practical guide</h3>
+
+            <h4>၁) လိုအပ်တဲ့ ပစ္စည်းတွေ</h4>
+            <div class="kit">
+              <div><b>RTL-SDR dongle (USB)</b>RTL2832U + R820T2 — 24 MHz–1.7 GHz ဖမ်းနိုင်တယ်၊ စျေးအသက်သာဆုံး အစပဲ။</div>
+              <div><b>Antenna — V-dipole (137 MHz)</b>အလျား ~53 cm စီ ၂ ချောင်း၊ 120° ခွဲထားတဲ့ V ပုံ — NOAA / METEOR အတွက် အခြေခံ။ ပိုကောင်းချင်ရင် QFH antenna သုံး။</div>
+              <div><b>Computer / Phone + SDR app</b>Laptop: SDR++ / SDR# · Android: SDR++ / RF Analyzer (OTG နဲ့ dongle ချိတ်)။</div>
+              <div><b>Software — SatDump</b>NOAA APT ပုံ decode + METEOR LRPT ပုံအတွက် အခမဲ့။ ISS SSTV အတွက် Robot36 (Android) / MMSSTV။</div>
+            </div>
+
+            <h4>၂) ဖမ်းနည်း အဆင့်ဆင့် (NOAA ဥပမာ)</h4>
+            <ol>
+              <li>ဒီ page မှာ NOAA 15/18/19 တစ်ခုခု Elevation မြင့်တဲ့ အချိန် (≥ 30° အကောင်းဆုံး) ကို ရွေးပြီး အချိန်မှတ်။</li>
+              <li>အပြင် ကျယ်ကျယ် / ခေါင်မိုးပေါ်မှာ V-dipole ကို အလျားလိုက်၊ V ကို တောင်ဘက်ချိန် ထားပါ။ အတားအဆီးနည်းလေ ပိုကောင်းလေ။</li>
+              <li>SDR app မှာ frequency ချိန် — ဥပမာ NOAA 19 ဆို <span class="mono"><b>137.100 MHz</b></span>၊ mode WFM၊ bandwidth ~34–40 kHz၊ gain 35–45 dB ပတ်လည် စမ်းပါ။</li>
+              <li>ဂြိုလ်တု တက်လာတာနဲ့ “tick-tock” APT အသံ / waterfall မှာ signal လိုင်း ထင်းလာမယ် — တစ် pass လုံး (၁၀–၁၅ မိနစ်) Record လုပ်ထားပါ။ Doppler ကြောင့် frequency အနည်းငယ် ရွေ့တာ ပုံမှန်ပဲ။</li>
+              <li>Record ဖိုင်ကို <b>SatDump → NOAA APT</b> pipeline မှာ ထည့်ပြီး decode လုပ်ရင် မိုးတိမ် ဓာတ်ပုံအစစ် ရမယ်။ METEOR ဆိုရင် SatDump → METEOR LRPT (137.100 / 137.900 MHz, QPSK) သုံး။</li>
+              <li>ISS SSTV ဆိုရင် 145.800 MHz FM ကို ဖမ်းပြီး Robot36 နဲ့ ပုံပြန်ထုတ်။ ISS voice repeater / APRS (145.825 MHz) လည်း နားထောင်လို့ရတယ်။</li>
+            </ol>
+
+            <h4>၃) သိထားရမှာတွေ</h4>
+            <ul>
+              <li><b>Receive-only:</b> နားထောင်တာ / ပုံယူတာပဲ — ဂြိုလ်တုကို ထိန်းချုပ်တာ၊ ချိတ်တာ၊ command ပို့တာ လုံးဝ မဟုတ်ပါ၊ လုပ်လို့လည်း မရပါ။</li>
+              <li><b>ထုတ်လွှင့်ခြင်း (transmit):</b> ကိုယ်က ပြန်လွှင့်ချင်ရင် amateur radio licence လိုတယ်။ Licence မရှိဘဲ ထုတ်လွှင့်တာ မလုပ်ပါနဲ့။ ဖမ်းနားထောင်တာကတော့ ယေဘုယျအားဖြင့် ရတယ်။</li>
+              <li>Antenna ကို ကောင်းကင်ရှင်းတဲ့နေရာထားတာ၊ pass အမြင့်ဆုံးအချိန်ကို ရွေးတာ — ဒီ ၂ ခုက ပုံကောင်းရဖို့ အဓိကပဲ။</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <footer>
         <p><b>Data source:</b> TLE (Two-Line Elements) — <a href="https://celestrak.org/NORAD/elements/" target="_blank" rel="noopener">CelesTrak</a> (NORAD catalog), browser ကနေ တိုက်ရိုက် fetch လုပ်ထားတာ။ <span id="srcLine">Fetched: — · TLE epoch: —</span> တည်နေရာတွက်ချက်မှု: SGP4 propagator — <a href="https://github.com/shashwatak/satellite-js" target="_blank" rel="noopener">satellite.js</a> v5.0.0, သင့် browser ထဲမှာပဲ တွက်တယ်။</p>
         <p><b>တိကျမှု မှတ်ချက်:</b> TLE + SGP4 တည်နေရာဟာ ပုံမှန်အားဖြင့် ကီလိုမီတာ အနည်းငယ်အတွင်း တိကျတယ် — ကောင်းကင်မှာ မျက်စိနဲ့ လိုက်ကြည့်ဖို့ လုံလောက်ပေမယ့် navigation အဆင့် မဟုတ်ပါ။ Fetch မအောင်မြင်ရင် အတု တည်နေရာ လုံးဝ မပြပါ — error ပြပြီး ပြန်ကြိုးစားခိုင်းပါတယ်။ ကြည်လင်တဲ့ ညနေ/မနက်ခင်းမှာ ISS နဲ့ Tiangong ကို အလင်းဝင်းဝင်း အစက်တစ်ခုအနေနဲ့ သာမန်မျက်စိနဲ့ မြင်နိုင်တယ်။</p>
@@ -270,8 +380,24 @@ var GROUPS = [
   { id:"starlink", en:"Starlink",       my:"Starlink",    url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle", color:"#3fd2ff" },
   { id:"weather",  en:"Weather",        my:"မိုးလေဝသ",    url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=weather&FORMAT=tle",  color:"#69f0ae" },
   { id:"gps",      en:"GPS / GNSS",     my:"GPS",         url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle",  color:"#ff9e7d" },
-  { id:"science",  en:"Science",        my:"သိပ္ပံ",      url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=science&FORMAT=tle",  color:"#d7b8ff" }
+  { id:"science",  en:"Science",        my:"သိပ္ပံ",      url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=science&FORMAT=tle",  color:"#d7b8ff" },
+  { id:"amateur",  en:"Amateur Radio",  my:"အပျော်တမ်း ရေဒီယို", url:"https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle", color:"#ff8ac2" }
 ];
+
+var RECEIVABLE = [
+  { norad:"25338", name:"NOAA 15", freq:"137.620 MHz", mode:"APT · မိုးလေဝသ ပုံ", desc:"APT analog ပုံ — SatDump နဲ့ decode လုပ်နိုင်တယ်" },
+  { norad:"28654", name:"NOAA 18", freq:"137.9125 MHz", mode:"APT · မိုးလေဝသ ပုံ", desc:"APT analog ပုံ — 137 MHz V-dipole နဲ့ ဖမ်းနိုင်တယ်" },
+  { norad:"33591", name:"NOAA 19", freq:"137.100 MHz", mode:"APT · မိုးလေဝသ ပုံ", desc:"APT analog ပုံ — အသုံးအများဆုံး NOAA pass" },
+  { norad:"40069", name:"METEOR-M2", freq:"137.100 MHz", mode:"LRPT · ဒစ်ဂျစ်တယ် ပုံ", desc:"LRPT QPSK 72k — SatDump နဲ့ ပုံအကြည်ရတယ်" },
+  { norad:"57166", name:"METEOR-M2 3", freq:"137.900 MHz", mode:"LRPT · ဒစ်ဂျစ်တယ် ပုံ", desc:"LRPT — METEOR-M2 စီးရီး အသစ်၊ 137.900 MHz" },
+  { norad:"25544", name:"ISS (ZARYA)", freq:"145.800 MHz", mode:"SSTV / Voice downlink", desc:"SSTV ပုံ + တခါတရံ အသံ — 145.825 MHz APRS လည်းရှိတယ်" },
+  { norad:"27607", name:"SO-50 (SAUDISAT-1C)", freq:"436.795 MHz ↓ · 145.850 MHz ↑", mode:"FM repeater · အပျော်တမ်း", desc:"FM အသံ repeater — နားထောင်တာက downlink ကိုပဲ ဖမ်းပါ" },
+  { norad:"43017", name:"AO-91 (FOX-1B)", freq:"145.960 MHz ↓ · 435.250 MHz ↑", mode:"FM repeater · အပျော်တမ်း", desc:"Fox-1B FM — downlink 145.960 MHz ကို နားထောင်နိုင်တယ်" },
+  { norad:"40967", name:"AO-85 / FOX-1A", freq:"145.980 MHz ↓", mode:"FM / telemetry · အပျော်တမ်း", desc:"Fox-1A telemetry + FM — အခြေအနေပေါ် မူတည်တယ်" }
+];
+var receivableState = [];
+var nearestNorad = null;
+var nearestPrevRange = null;
 var groupById = {}; GROUPS.forEach(function(g){ groupById[g.id]=g; });
 
 var ALIAS = {
@@ -478,12 +604,29 @@ function computeNow(first){
     if (idx<sats.length){ setTimeout(chunk, 0); return; }
     visible = results.filter(function(r){ return r.el>0; });
     visible.sort(function(a,b){ return b.el-a.el; });
+    // nearest by range (km) among overhead
+    var nearest = null;
+    for (var ni=0; ni<visible.length; ni++){ if (!nearest || visible[ni].range < nearest.range) nearest = visible[ni]; }
+    nearestNorad = nearest ? nearest.sat.norad : null;
+    // receivable satellites — compute even when below horizon
+    receivableState = [];
+    var rDate = new Date(), rGmst = satellite.gstime(rDate), rObs = observerGd();
+    RECEIVABLE.forEach(function(def){
+      var s=null; for (var si=0; si<sats.length; si++) if (sats[si].norad===def.norad){ s=sats[si]; break; }
+      if (!s) { receivableState.push({ def:def, sat:null, r:null }); return; }
+      var rr = lookAngles(s, rDate, rGmst, rObs);
+      receivableState.push({ def:def, sat:s, r:rr });
+    });
+    receivableState.sort(function(a,b){
+      var ea=a.r? a.r.el : -999, eb=b.r? b.r.el : -999;
+      return eb-ea;
+    });
     if (!selectedNorad){
       for (var vi=0; vi<visible.length; vi++){ if (visible[vi].sat.group==="stations"){ selectedNorad=visible[vi].sat.norad; break; } }
     }
     lastComputeMs = Math.round(performance.now()-t0);
     computeBusy = false;
-    renderStats(); renderList(); renderDetail();
+    renderStats(); renderList(); renderDetail(); renderNearest(nearest); renderReceivable();
     setTimeout(function(){ computeNow(false); }, 1600);
   }
   chunk();
@@ -511,19 +654,26 @@ function renderStats(){
 }
 function renderList(){
   var ul=$("satList"); ul.innerHTML="";
-  var rows = visible.filter(matchesFilter).slice(0,120);
+  var rows = visible.filter(matchesFilter).slice();
+  rows.sort(function(a,b){
+    if (a.sat.norad===nearestNorad) return -1;
+    if (b.sat.norad===nearestNorad) return 1;
+    return b.el-a.el;
+  });
+  rows = rows.slice(0,120);
   $("listCount").textContent = rows.length ? "("+rows.length+")" : "";
   $("listEmpty").style.display = rows.length? "none":"block";
   var frag=document.createDocumentFragment();
   rows.forEach(function(r){
     var li=document.createElement("li");
     var b=document.createElement("button");
-    b.type="button"; b.className="satbtn";
+    var isNearest = r.sat.norad===nearestNorad;
+    b.type="button"; b.className="satbtn"+(isNearest?" is-nearest":"");
     if (r.sat.norad===selectedNorad) b.setAttribute("aria-current","true");
     var c=compass(r.az);
     b.innerHTML =
       '<span class="dot" style="background:'+groupById[r.sat.group].color+'"></span>'+
-      '<span class="nm"><b>'+esc(r.sat.disp)+'</b><span>NORAD '+r.sat.norad+' · '+esc(groupById[r.sat.group].en)+'</span></span>'+
+      '<span class="nm"><b>'+esc(r.sat.disp)+(isNearest?'<span class="nearest-badge">◉ အနီးဆုံး · NEAREST</span>':"")+'</b><span>NORAD '+r.sat.norad+' · '+esc(groupById[r.sat.group].en)+'</span></span>'+
       '<span class="nums"><b>EL '+r.el.toFixed(0)+'°</b> '+c[0]+'<br />'+Math.round(r.range).toLocaleString("en-US")+' km'+
       '<span class="elbar"><i style="width:'+Math.min(100,r.el/90*100)+'%"></i></span></span>';
     b.addEventListener("click", function(){ selectedNorad=r.sat.norad; renderList(); renderDetail(); });
@@ -572,6 +722,59 @@ function renderDetail(){
       '<div><div class="k">Inclination · တိမ်းစောင်း</div><div class="v">'+(sat.inc!=null? sat.inc.toFixed(1)+'°':'—')+'</div></div>'+
       passHtml+
     '</div>';
+}
+
+function renderNearest(nearest){
+  var card=$("nearestCard"); if(!card) return;
+  if(!nearest){ card.classList.remove("show"); nearestPrevRange=null; return; }
+  card.classList.add("show");
+  var c=compass(nearest.az);
+  $("nearestName").innerHTML = esc(nearest.sat.disp)+'<small>'+(nearest.sat.my?esc(nearest.sat.my)+" · ":"")+'NORAD '+nearest.sat.norad+' · '+esc(groupById[nearest.sat.group].en)+' · '+c[1]+' ('+c[0]+') ဘက်မှာ ရှိတယ်</small>';
+  $("nearestRange").textContent = Math.round(nearest.range).toLocaleString("en-US")+" km";
+  $("nearestAzEl").textContent = nearest.az.toFixed(1)+"° / "+nearest.el.toFixed(1)+"°";
+  $("nearestAlt").textContent = Math.round(nearest.alt).toLocaleString("en-US")+" km";
+  $("nearestVel").textContent = nearest.vel? nearest.vel.toFixed(2)+" km/s" : "—";
+  var trend=$("nearestTrend");
+  if (nearestPrevRange!=null && nearest.sat.norad===renderNearest._lastNorad){
+    var d = nearest.range - nearestPrevRange;
+    if (d < -0.5) trend.textContent = "▼ နီးလာနေတယ် · " + Math.abs(d).toFixed(1) + " km ↓";
+    else if (d > 0.5) trend.textContent = "▲ ဝေးသွားနေတယ် · +" + d.toFixed(1) + " km";
+    else trend.textContent = "● အနီးဆုံးအကွာအဝေး ပတ်လည်";
+  } else {
+    trend.textContent = "● LIVE · 1.6s UPDATE";
+  }
+  nearestPrevRange = nearest.range;
+  renderNearest._lastNorad = nearest.sat.norad;
+  var db=$("nearestDetailBtn"); if(db){ db.onclick=function(){ selectedNorad=nearest.sat.norad; renderList(); renderDetail(); window.scrollTo({top: document.querySelector(".detail").offsetTop-12, behavior:"smooth"}); }; }
+  var jb=$("nearestJumpBtn"); if(jb){ jb.onclick=function(){ selectedNorad=nearest.sat.norad; renderList(); renderDetail(); var el=document.querySelector(".satbtn.is-nearest"); if(el) el.scrollIntoView({block:"center", behavior:"smooth"}); }; }
+}
+function renderReceivable(){
+  var ul=$("rxList"); if(!ul) return;
+  ul.innerHTML="";
+  var any=false;
+  receivableState.forEach(function(item){
+    any=true;
+    var li=document.createElement("li");
+    var r=item.r, def=item.def;
+    var badge, meta;
+    if (!item.sat || !r){
+      badge='<span class="rxbadge below">TLE မရသေးပါ</span>';
+      meta="—";
+    } else if (r.el>=10){
+      badge='<span class="rxbadge good">● အခု လက်ခံနိုင်တယ် · NOW RECEIVABLE</span>';
+      meta="EL "+r.el.toFixed(1)+"°<br>"+Math.round(r.range).toLocaleString("en-US")+" km";
+    } else if (r.el>0){
+      badge='<span class="rxbadge marginal">မိုးကုပ်ထဲ · အားနည်းနိုင်</span>';
+      meta="EL "+r.el.toFixed(1)+"°<br>"+Math.round(r.range).toLocaleString("en-US")+" km";
+    } else {
+      badge='<span class="rxbadge below">မိုးကုပ်အောက် · Below horizon</span>';
+      meta="EL "+r.el.toFixed(1)+"°";
+    }
+    var azTxt = r ? " · AZ "+r.az.toFixed(0)+"° "+compass(r.az)[0] : "";
+    li.innerHTML = '<div class="rxmain"><b>'+esc(def.name)+'</b> <span class="freq">'+esc(def.freq)+'</span><p><b style="color:var(--ink)">'+esc(def.mode)+'</b>'+azTxt+'<br>'+esc(def.desc)+'</p></div><div class="rxmeta">'+badge+'<div style="margin-top:6px">'+meta+'</div></div>';
+    ul.appendChild(li);
+  });
+  $("rxEmpty").style.display = any? "none":"block";
 }
 
 /* ---------- next passes (ISS + CSS) ---------- */
@@ -754,9 +957,19 @@ function drawRadar(now){
     ctx.globalAlpha=.65+.35*boost;
     ctx.beginPath(); ctx.arc(x,y,radDot,0,Math.PI*2); ctx.fill();
     ctx.globalAlpha=1;
-    if (big || r.el>55){
-      ctx.fillStyle="rgba(220,255,235,.92)"; ctx.textAlign="left";
-      ctx.fillText(r.sat.norad==="25544"?"ISS":(r.sat.norad==="48274"?"CSS":r.sat.name.slice(0,12)), x+8, y-6);
+    var isNearest = r.sat.norad===nearestNorad;
+    if (big || r.el>55 || isNearest){
+      ctx.fillStyle= isNearest? "#ffffff" : "rgba(220,255,235,.92)"; ctx.textAlign="left";
+      var lbl = r.sat.norad==="25544"?"ISS":(r.sat.norad==="48274"?"CSS":r.sat.name.slice(0,12));
+      if (isNearest) lbl = "◉ NEAREST · "+lbl+" · "+Math.round(r.range)+" km";
+      ctx.fillText(lbl, x+10, y-8);
+    }
+    if (isNearest){
+      ctx.strokeStyle="#ffffff"; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(x,y,radDot+11+Math.sin(now/240)*2.2,0,Math.PI*2); ctx.stroke();
+      ctx.strokeStyle="#2eff8f"; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.arc(x,y,radDot+16+Math.sin(now/240)*2.2,0,Math.PI*2); ctx.stroke();
+      ctx.lineWidth=1;
     }
     if (r.sat.norad===selectedNorad){
       ctx.strokeStyle="#ffffff"; ctx.lineWidth=1.4;
