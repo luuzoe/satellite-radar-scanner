@@ -317,6 +317,14 @@
         .livebox{text-align:left}
         .satlist{max-height:420px}
       }
+      /* two-way (amateur repeater) card */
+      .talklist{list-style:none;margin:12px 0 0;padding:0}
+      .talklist li{border-top:1px solid var(--line);padding:11px 4px}
+      .talklist li:first-child{border-top:none}
+      .talklist .freq{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:700;color:var(--accent-ink)}
+      .talklist p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+      .talkpass{margin-top:6px;font-size:13.5px}
+      .talkpass b{color:var(--accent-ink)}
       /* ===== Clean UI pass: flat surfaces, one radius scale, no glow ===== */
       body{background:var(--bg)}
       .wrap{max-width:1080px;padding:14px 14px 28px}
@@ -621,6 +629,56 @@
             </ul>
             </details>
           </div>
+        </div>
+      </section>
+
+      <section class="card talk" id="talkCard" aria-label="နှစ်ဖက် ဆက်သွယ်ခြင်း">
+        <h2>နှစ်ဖက် ဆက်သွယ်ခြင်း · Talk via Amateur Satellites</h2>
+        <p class="hint">အောက်က ဂြိုလ်တု ၃ လုံးက ကောင်းကင်ပေါ်က repeater တွေ — ကိုယ့်အသံကို လက်ခံပြီး ပြန်လွှင့်ပေးတယ်။ နောက် pass အချိန်တွေကို live TLE နဲ့ ဒီနေရာကနေ တွက်ထားတာ။ Starlink / GPS / NOAA လို ဂြိုလ်တုတွေနဲ့တော့ နှစ်ဖက် ပြောလို့မရပါ — ပိုင်ရှင်စနစ်တွေပဲ။</p>
+
+        <div class="honest"><b>အရင်ဆုံး သိထားပါ:</b> ဖုန်း / ဒီ website နဲ့ တိုက်ရိုက် လွှင့်လို့ <b>မရပါ</b> — amateur radio လိုင်စင် + dual-band လက်ကိုင် radio + Yagi antenna လိုတယ်။ မြန်မာမှာ လိုင်စင်မရှိဘဲ ထုတ်လွှင့်ရင် Telecommunications Law <b>Section 67</b> နဲ့ အရေးယူခံရနိုင်တယ် — <b>လိုင်စင်မရှိဘဲ မလွှင့်ပါနဲ့</b>။ နားထောင်တာကတော့ ရတယ်။</div>
+
+        <ul class="talklist">
+          <li>
+            <b>SO-50 · SAUDISAT-1C</b> <span class="freq">↑ 145.850 MHz · ↓ 436.795 MHz</span>
+            <p>FM voice repeater · CTCSS <b>67.0 Hz</b> · အရင် <b>74.4 Hz</b> tone ၂ စက္ကန့် ပို့ပြီး timer ဖွင့်ရတယ် (၁၀ မိနစ် အလုပ်လုပ်တယ်)</p>
+            <div class="talkpass" id="talkPass27607">နောက် pass: TLE ရရင် တွက်ပြမယ်…</div>
+          </li>
+          <li>
+            <b>ISS · Voice Repeater</b> <span class="freq">↑ 145.990 MHz · ↓ 437.800 MHz</span>
+            <p>FM crossband repeater · CTCSS <b>67.0 Hz</b> · အမြဲမဖွင့်ထားပါ — crew အချိန်ဇယားပေါ် မူတည်တယ်</p>
+            <div class="talkpass" id="talkPass25544">နောက် pass: TLE ရရင် တွက်ပြမယ်…</div>
+          </li>
+          <li>
+            <b>AO-91 · FOX-1B</b> <span class="freq">↑ 435.250 MHz · ↓ 145.960 MHz</span>
+            <p>FM voice repeater · CTCSS <b>67.0 Hz</b> (uplink မှာ)</p>
+            <div class="talkpass" id="talkPass43017">နောက် pass: TLE ရရင် တွက်ပြမယ်…</div>
+          </li>
+        </ul>
+
+        <p style="margin:14px 0 0;font-size:14px">ဒီနေ့ အခမဲ့ နားထောင်ကြည့်: <a href="https://network.satnogs.org/observations/3334/" target="_blank" rel="noopener">SatNOGS recording — SO-50 FM voice pass</a> · ham တွေ SO-50 ကနေ တကယ် စကားပြောနေတဲ့ အသံဖိုင် (နားထောင်တာပဲ၊ လိုင်စင် မလိုပါ)။</p>
+
+        <div class="guide" style="margin-top:14px">
+          <details>
+          <summary>ဘယ်လို ဆက်သွယ်ရမလဲ · How it works (လိုင်စင်ရပြီးမှ)</summary>
+
+          <h4>၁) လိုအပ်တဲ့ ပစ္စည်းတွေ</h4>
+          <div class="kit">
+            <div><b>Dual-band လက်ကိုင် radio</b>2m / 70cm dual-band, 5W — ဥပမာ Baofeng UV-5R အမျိုးအစား။ CTCSS tone ထည့်လို့ရရမယ်။</div>
+            <div><b>Yagi antenna</b>Arrow Yagi / tape-measure Yagi — ဂြိုလ်တုရှိရာဘက် လက်နဲ့ လှည့်ချိန်ရန်။ ခေါင်မိုးပေါ် / ကျယ်တဲ့နေရာ အကောင်းဆုံး။</div>
+            <div><b>ဒီ app</b>နောက် pass အချိန် + AR ကောင်းကင် view နဲ့ ဘယ်ဘက် ချိန်ရမလဲ ကြည့်ရန်။</div>
+            <div><b>Amateur radio လိုင်စင်</b>မြန်မာမှာ ရဖို့ ခက်တယ်။ မရသေးရင် ထုတ်မလွှင့်ဘဲ နားထောင်တာပဲ လုပ်ပါ။</div>
+          </div>
+
+          <h4>၂) အဆင့်ဆင့်</h4>
+          <ol>
+            <li>အပေါ်က pass တွေထဲက အမြင့်ဆုံး Elevation <b>≥ 30°</b> ရတဲ့ pass ကို ရွေးပါ — တစ်ခါဖြတ်တာ ၁၀–၁၅ မိနစ်ပဲ ရတယ်။</li>
+            <li>Radio မှာ uplink / downlink frequency + CTCSS <b>67.0 Hz</b> ကြိုချိန်ထားပါ။ SO-50 ဆိုရင် pass စတာနဲ့ <b>74.4 Hz</b> tone ၂ စက္ကန့် အရင် ပို့ပြီး repeater timer ကို ဖွင့်ရတယ်။</li>
+            <li>Antenna ကို ဂြိုလ်တု တက်လာမယ့် azimuth ဘက် ချိန်ပြီး pass တစ်လျှောက် ဖြည်းဖြည်း လိုက်လှည့်ပါ။</li>
+            <li><b>Doppler:</b> ဂြိုလ်တု အရှိန်ကြောင့် frequency ရွေ့တယ် — 70 cm downlink က pass အစမှာ ~+10 kHz ကနေ အဆုံးမှာ ~−10 kHz ထိ ရွေ့တယ် (အပေါ်က pass တစ်ခုချင်းမှာ အများဆုံး ရွေ့နိုင်တဲ့ ပမာဏ ပြထားတယ်)။ 5 kHz step နဲ့ လိုက်ချိန်ပါ။ 2 m ဆိုရင် ±3 kHz လောက်ပဲ ရွေ့တယ်။</li>
+            <li>Downlink အသံ ရှင်းမှ call sign ပြောပြီး ဆက်သွယ်ပါ — contact က စက္ကန့်ပိုင်းပဲ ရတတ်တယ်၊ အတိုပဲ ပြောပါ။</li>
+          </ol>
+          </details>
         </div>
       </section>
 
@@ -1471,6 +1529,7 @@ function loadAll(){
     updateSourceLine();
     computeNow(true);
     computePasses();
+    computeTalkPasses();
     if (failedGroups.length) scheduleGroupRetry(failedGroups.slice(), mySeq, 1);
   });
 }
@@ -1715,6 +1774,75 @@ function renderReceivable(){
     ul.appendChild(li);
   });
   $("rxEmpty").style.display = any? "none":"block";
+}
+
+/* ---------- two-way amateur repeater passes (SO-50 / ISS / AO-91) ---------- */
+/* Same SGP4 pass scan as the station cards, but with its own token so the
+   two scans never cancel each other. Doppler max is the largest downlink
+   shift across the pass, from the numeric range rate at passDetails
+   resolution. */
+var TALK_SATS = [
+  { norad:"27607", downMHz:436.795 },
+  { norad:"25544", downMHz:437.800 },
+  { norad:"43017", downMHz:145.960 }
+];
+var talkToken = 0;
+function dopplerMaxKhz(sat, startMs, endMs, freqMHz){
+  var obsGd = observerGd();
+  var prevRange = null, prevT = 0, maxVr = 0;
+  for (var t=startMs; t<=endMs; t+=15000){
+    var d = new Date(t);
+    var r = lookAngles(sat, d, satellite.gstime(d), obsGd);
+    if (r && prevRange !== null){
+      var vr = (r.range - prevRange) / ((t - prevT) / 1000);
+      if (Math.abs(vr) > Math.abs(maxVr)) maxVr = vr;
+    }
+    if (r){ prevRange = r.range; prevT = t; }
+  }
+  return Math.abs(maxVr) / 299792.458 * freqMHz * 1000;
+}
+function scanTalkPasses(sat, token, cb){
+  var obsGd = observerGd();
+  var start = Date.now(), limit = start + 48*3600*1000, step = 30000;
+  var raw = [], inPass = false, passStart = 0;
+  var prev = elAt(sat, new Date(start), obsGd), prevT = start, t = start + step;
+  function refine(lo, hi, rising){
+    for (var i=0;i<10;i++){ var mid=(lo+hi)/2; var e=elAt(sat,new Date(mid),obsGd); if (rising){ if (e>10) hi=mid; else lo=mid; } else { if (e>10) lo=mid; else hi=mid; } }
+    return rising ? hi : lo;
+  }
+  function chunk(){
+    if (token !== talkToken) return;
+    var end = performance.now() + 12;
+    while (t < limit && performance.now() < end){
+      var el = elAt(sat, new Date(t), obsGd);
+      if (!inPass && prev <= 10 && el > 10){ passStart = refine(prevT, t, true); inPass = true; }
+      else if (inPass && prev > 10 && el <= 10){ raw.push({ s:passStart, e:refine(prevT, t, false) }); inPass = false; }
+      prev = el; prevT = t; t += step;
+    }
+    if (t < limit){ setTimeout(chunk, 0); return; }
+    if (inPass) raw.push({ s:passStart, e:limit });
+    cb(raw.map(function(rw){ return passDetails(sat, rw.s, rw.e, obsGd); }));
+  }
+  chunk();
+}
+function computeTalkPasses(){
+  var token = ++talkToken;
+  TALK_SATS.forEach(function(def){
+    var el = $("talkPass" + def.norad); if (!el) return;
+    var sat = null;
+    sats.forEach(function(s){ if (s.norad === def.norad) sat = s; });
+    if (!sat){ el.textContent = "နောက် pass: TLE မရသေးပါ — data load ပြီးရင် ပေါ်မယ်"; return; }
+    el.textContent = "နောက် pass: တွက်နေတယ်…";
+    scanTalkPasses(sat, token, function(list){
+      if (token !== talkToken) return;
+      var p = list[0];
+      if (!p){ el.textContent = "နောက် pass: 48 နာရီအတွင်း Elevation 10° အထက် မရှိပါ"; return; }
+      var day = p.start.toDateString() === new Date().toDateString() ? "ဒီနေ့ " : "";
+      var dur = Math.max(1, Math.round((p.end - p.start) / 60000));
+      var dk = dopplerMaxKhz(sat, p.start.getTime(), p.end.getTime(), def.downMHz);
+      el.innerHTML = "နောက် pass: <b>" + day + fmtDT(p.start) + " → " + fmtTimeShort(p.end) + "</b> · အမြင့်ဆုံး " + p.peak.toFixed(0) + "° · ~" + dur + " မိနစ် · Doppler ±" + dk.toFixed(1) + " kHz အထိ";
+    });
+  });
 }
 
 /* ---------- next passes (ISS + CSS) ---------- */
@@ -2004,7 +2132,7 @@ $("gpsBtn").addEventListener("click", function(){
   }, { enableHighAccuracy:true, timeout:12000 });
 });
 var passTimer=null;
-function computePassesSoon(){ clearTimeout(passTimer); passTimer=setTimeout(function(){ computePasses(); fetchCloud(); }, 300); }
+function computePassesSoon(){ clearTimeout(passTimer); passTimer=setTimeout(function(){ computePasses(); computeTalkPasses(); fetchCloud(); }, 300); }
 /* favourite star buttons */
 $("favIss").addEventListener("click", function(){ toggleFav("25544"); });
 $("favCss").addEventListener("click", function(){ toggleFav("48274"); });
@@ -3062,6 +3190,7 @@ function initTabs(){
   tagTab($("arSection"), "sky");
   tagTab($("visCard"), "signal");
   tagTab($("signalCard"), "signal");
+  tagTab($("talkCard"), "signal");
   document.querySelectorAll(".tabbtn").forEach(function(b){
     b.addEventListener("click", function(){ setTab(b.getAttribute("data-goto")); });
   });
